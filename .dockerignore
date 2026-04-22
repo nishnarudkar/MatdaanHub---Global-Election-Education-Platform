@@ -1,0 +1,32 @@
+# Never bake secrets into the image
+.env
+.env.local
+.env.*.local
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.coverage
+htmlcov/
+venv/
+.venv/
+*.egg-info/
+
+# Dev/IDE
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Git
+.git/
+.gitignore
+
+# Logs
+*.log
+build.log
+
+# Docs / CI only
+README.md

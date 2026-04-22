@@ -15,9 +15,17 @@ steps:
       - 'push'
       - 'gcr.io/$PROJECT_ID/matdaanhub:$SHORT_SHA'
 
-  # Step 3: Deploy to Cloud Run
-  - name: 'gcr.io/cloud-builders/run'
+  # Step 3: Also push the latest tag
+  - name: 'gcr.io/cloud-builders/docker'
     args:
+      - 'push'
+      - 'gcr.io/$PROJECT_ID/matdaanhub:latest'
+
+  # Step 4: Deploy to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
       - 'deploy'
       - 'matdaanhub'
       - '--image'
@@ -27,8 +35,20 @@ steps:
       - '--platform'
       - 'managed'
       - '--allow-unauthenticated'
+      - '--port'
+      - '8080'
       - '--set-env-vars'
-      - 'GEMINI_API_KEY=${_GEMINI_API_KEY},GOOGLE_CLOUD_PROJECT=$PROJECT_ID,GOOGLE_TRANSLATE_ENABLED=true'
+      - >-
+        SECRET_KEY=${_SECRET_KEY},
+        GEMINI_API_KEY=${_GEMINI_API_KEY},
+        GOOGLE_CLOUD_PROJECT=$PROJECT_ID,
+        GOOGLE_TRANSLATE_ENABLED=true,
+        FIREBASE_ENABLED=true,
+        VERTEX_GROUNDING_ENABLED=false,
+        VERTEX_LOCATION=us-central1,
+        RATELIMIT_STORAGE_URI=memory://,
+        LOG_LEVEL=INFO,
+        DEBUG=false
 
 images:
   - 'gcr.io/$PROJECT_ID/matdaanhub:$SHORT_SHA'
@@ -41,10 +61,10 @@ options:
 timeout: '1800s'
 
 substitutions:
-  # Set this in your Cloud Build trigger configuration:
-  # gcloud builds triggers create ... --substitutions=_GEMINI_API_KEY=<your-key>
-  # Or via the GCP Console under Cloud Build > Triggers > Substitution variables
+  # Set these in your Cloud Build trigger under "Substitution variables":
+  # GCP Console → Cloud Build → Triggers → Edit → Substitution variables
   _GEMINI_API_KEY: ''
+  _SECRET_KEY: ''
 
 tags:
   - 'matdaanhub'
