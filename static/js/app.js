@@ -277,20 +277,20 @@ function renderQuizQuestion() {
         <div class="inked-finger-wrap" aria-hidden="true">
           <svg class="inked-finger-svg" viewBox="0 0 80 110" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Inked finger celebrating vote">
             <g class="finger-body">
-              <rect x="28" y="30" width="24" height="55" rx="12" fill="#c9a84c"/>
-              <rect x="28" y="30" width="24" height="20" rx="10" fill="#e8c96a"/>
-              <rect x="30" y="78" width="20" height="12" rx="6" fill="#b8943c"/>
+              <rect x="28" y="30" width="24" height="55" rx="12" fill="#6366f1"/>
+              <rect x="28" y="30" width="24" height="20" rx="10" fill="#8b5cf6"/>
+              <rect x="30" y="78" width="20" height="12" rx="6" fill="#4f46e5"/>
             </g>
             <g class="ink-dot">
-              <circle cx="40" cy="90" r="7" fill="#1a1f2e"/>
+              <circle cx="40" cy="90" r="7" fill="#1a1d2e"/>
               <circle cx="40" cy="90" r="4" fill="#0d1117" opacity="0.8"/>
             </g>
             <g class="sparkles">
-              <circle class="sp sp1" cx="18" cy="22" r="3" fill="#c9a84c"/>
-              <circle class="sp sp2" cx="62" cy="18" r="2.5" fill="#e8c96a"/>
-              <circle class="sp sp3" cx="12" cy="50" r="2" fill="#c9a84c"/>
-              <circle class="sp sp4" cx="68" cy="48" r="2.5" fill="#e8c96a"/>
-              <circle class="sp sp5" cx="40" cy="8" r="3" fill="#c9a84c"/>
+              <circle class="sp sp1" cx="18" cy="22" r="3" fill="#6366f1"/>
+              <circle class="sp sp2" cx="62" cy="18" r="2.5" fill="#8b5cf6"/>
+              <circle class="sp sp3" cx="12" cy="50" r="2" fill="#6366f1"/>
+              <circle class="sp sp4" cx="68" cy="48" r="2.5" fill="#8b5cf6"/>
+              <circle class="sp sp5" cx="40" cy="8" r="3" fill="#6366f1"/>
             </g>
           </svg>
         </div>

@@ -5,6 +5,10 @@ All environment variables, constants, and settings
 
 import os
 from typing import Optional
+from dotenv import load_dotenv
+
+# Load .env file before reading any env vars
+load_dotenv()
 
 # ──────────────────────────────────────────────
 # APP CONFIG

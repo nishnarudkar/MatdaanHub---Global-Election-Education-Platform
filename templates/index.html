@@ -47,23 +47,72 @@
     <div class="globe-ring ring-1"></div>
     <div class="globe-ring ring-2"></div>
     <div class="globe-ring ring-3"></div>
-    <div class="floating-flags" aria-hidden="true">
-      <span class="ff">🇮🇳</span><span class="ff">🇺🇸</span><span class="ff">🇬🇧</span>
-      <span class="ff">🇧🇷</span><span class="ff">🇪🇺</span>
+    <div class="flag-cloud">
+      <!-- Layer 1 - Far back (10 flags, 12% opacity) -->
+      <span class="cloud-flag layer-1"><img src="/static/images/india_flag.jpg" alt="India flag"></span>
+      <span class="cloud-flag layer-1"><img src="/static/images/Flag-Brazil.webp" alt="Brazil flag"></span>
+      <span class="cloud-flag layer-1"><img src="/static/images/Flag_of_Australia_(converted).svg.webp" alt="Australia flag"></span>
+      <span class="cloud-flag layer-1"><img src="/static/images/Flag_of_Canada_(Pantone).svg.webp" alt="Canada flag"></span>
+      <span class="cloud-flag layer-1"><img src="/static/images/Flag_of_Mexico.svg.png" alt="Mexico flag"></span>
+      <span class="cloud-flag layer-1"><img src="/static/images/Flag-South-Africa.webp" alt="South Africa flag"></span>
+      <span class="cloud-flag layer-1"><img src="/static/images/Flag-United-Kingdom.webp" alt="UK flag"></span>
+      <span class="cloud-flag layer-1"><img src="/static/images/Flag_of_Japan.svg.webp" alt="Japan flag"></span>
+      <span class="cloud-flag layer-1"><img src="/static/images/Flag-United-States-of-America.webp" alt="USA flag"></span>
+      <span class="cloud-flag layer-1"><img src="/static/images/Flag_of_Europe.svg.png" alt="EU flag"></span>
+      <!-- Layer 2 - Middle (10 flags, 18% opacity) -->
+      <span class="cloud-flag layer-2"><img src="/static/images/Flag-United-States-of-America.webp" alt="USA flag"></span>
+      <span class="cloud-flag layer-2"><img src="/static/images/Flag_of_Europe.svg.png" alt="EU flag"></span>
+      <span class="cloud-flag layer-2"><img src="/static/images/Flag_of_Japan.svg.webp" alt="Japan flag"></span>
+      <span class="cloud-flag layer-2"><img src="/static/images/Flag-United-Kingdom.webp" alt="UK flag"></span>
+      <span class="cloud-flag layer-2"><img src="/static/images/india_flag.jpg" alt="India flag"></span>
+      <span class="cloud-flag layer-2"><img src="/static/images/Flag_of_Canada_(Pantone).svg.webp" alt="Canada flag"></span>
+      <span class="cloud-flag layer-2"><img src="/static/images/Flag-Brazil.webp" alt="Brazil flag"></span>
+      <span class="cloud-flag layer-2"><img src="/static/images/Flag_of_Mexico.svg.png" alt="Mexico flag"></span>
+      <span class="cloud-flag layer-2"><img src="/static/images/Flag_of_Australia_(converted).svg.webp" alt="Australia flag"></span>
+      <span class="cloud-flag layer-2"><img src="/static/images/Flag-South-Africa.webp" alt="South Africa flag"></span>
+      <!-- Layer 3 - Front (10 flags, 25% opacity) -->
+      <span class="cloud-flag layer-3"><img src="/static/images/Flag-United-Kingdom.webp" alt="UK flag"></span>
+      <span class="cloud-flag layer-3"><img src="/static/images/Flag-Brazil.webp" alt="Brazil flag"></span>
+      <span class="cloud-flag layer-3"><img src="/static/images/Flag-United-States-of-America.webp" alt="USA flag"></span>
+      <span class="cloud-flag layer-3"><img src="/static/images/Flag_of_Japan.svg.webp" alt="Japan flag"></span>
+      <span class="cloud-flag layer-3"><img src="/static/images/Flag_of_Australia_(converted).svg.webp" alt="Australia flag"></span>
+      <span class="cloud-flag layer-3"><img src="/static/images/Flag_of_Europe.svg.png" alt="EU flag"></span>
+      <span class="cloud-flag layer-3"><img src="/static/images/india_flag.jpg" alt="India flag"></span>
+      <span class="cloud-flag layer-3"><img src="/static/images/Flag_of_Canada_(Pantone).svg.webp" alt="Canada flag"></span>
+      <span class="cloud-flag layer-3"><img src="/static/images/Flag-South-Africa.webp" alt="South Africa flag"></span>
+      <span class="cloud-flag layer-3"><img src="/static/images/Flag_of_Mexico.svg.png" alt="Mexico flag"></span>
     </div>
   </div>
   <div class="hero-content">
-    <div class="hero-badge">🌍 5 Countries · 25+ Election Facts</div>
+    <div class="hero-badge">🌍 10 Countries · 50+ Election Facts</div>
     <h1 id="hero-title">Understand How<br /><em>Democracy Works</em></h1>
-    <p class="hero-sub">Interactive timelines, step-by-step guides, and AI-powered Q&amp;A — explore elections from India to the EU.</p>
+    <p class="hero-sub">Explore global election systems through interactive timelines, voting guides, and AI-powered insights — from India's massive democracy to the EU Parliament.</p>
     <div class="hero-ctas">
       <button class="btn-primary" onclick="setView('explore')" aria-label="Start exploring countries">Start Exploring</button>
       <button class="btn-ghost" onclick="setView('chat')" aria-label="Ask the AI assistant">Ask AI Assistant</button>
     </div>
     <div class="hero-stats" role="list" aria-label="Key statistics">
-      <div class="stat" role="listitem"><span class="stat-num">970M+</span><span class="stat-label">Indian Voters</span></div>
-      <div class="stat" role="listitem"><span class="stat-num">720</span><span class="stat-label">EU Parliament Seats</span></div>
-      <div class="stat" role="listitem"><span class="stat-num">156M+</span><span class="stat-label">Brazilian Voters</span></div>
+      <div class="stat" role="listitem">
+        <span class="stat-num">
+          <span class="stat-flag">🇮🇳</span>
+          <span class="stat-value">970M+</span>
+        </span>
+        <span class="stat-label">Indian Voters</span>
+      </div>
+      <div class="stat" role="listitem">
+        <span class="stat-num">
+          <span class="stat-flag">🇪🇺</span>
+          <span class="stat-value">720</span>
+        </span>
+        <span class="stat-label">EU Parliament Seats</span>
+      </div>
+      <div class="stat" role="listitem">
+        <span class="stat-num">
+          <span class="stat-flag">🇧🇷</span>
+          <span class="stat-value">156M+</span>
+        </span>
+        <span class="stat-label">Brazilian Voters</span>
+      </div>
     </div>
   </div>
 </section>
