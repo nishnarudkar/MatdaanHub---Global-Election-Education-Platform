@@ -606,6 +606,11 @@
         "icon": "🌭",
         "title": "Enjoy the Sausage Sizzle",
         "detail": "Many polling places host BBQs. Getting a 'Democracy Sausage' is a national tradition."
+      },
+      {
+        "icon": "📊",
+        "title": "Check the Results",
+        "detail": "Follow live results on the AEC website. Preference counts may take days for close seats."
       }
     ],
     "facts": [

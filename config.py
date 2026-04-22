@@ -7,7 +7,7 @@ import os
 from typing import Optional
 
 # ──────────────────────────────────────────────
-# FLASK CONFIG
+# APP CONFIG
 # ──────────────────────────────────────────────
 
 SECRET_KEY: str = os.environ.get("SECRET_KEY", "matdaanhub-dev-key-2026-change-in-production")
@@ -106,7 +106,7 @@ CSP_HEADER: str = (
 MAX_MESSAGE_LENGTH: int = 500
 MAX_TEXT_TRANSLATION_LENGTH: int = 5000
 MIN_MESSAGE_LENGTH: int = 1
-ALLOWED_COUNTRIES: list[str] = ["india", "usa", "uk", "eu", "brazil"]
+ALLOWED_COUNTRIES: list[str] = ["india", "usa", "uk", "eu", "brazil", "south_africa", "australia", "japan", "mexico", "canada"]
 
 # ──────────────────────────────────────────────
 # DATA FILES

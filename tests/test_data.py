@@ -35,8 +35,9 @@ class TestElectionsDataStructure:
 
     def test_no_extra_countries(self):
         """Should not have unexpected countries."""
+        from config import ALLOWED_COUNTRIES
         for country in ELECTION_DATA.keys():
-            assert country in SUPPORTED_COUNTRIES, f"Unexpected country: {country}"
+            assert country in ALLOWED_COUNTRIES, f"Unexpected country: {country}"
 
     @pytest.mark.parametrize("country", SUPPORTED_COUNTRIES)
     def test_country_is_dict(self, country):

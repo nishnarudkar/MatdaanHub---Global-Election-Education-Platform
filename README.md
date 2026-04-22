@@ -17,7 +17,7 @@ MatdaanHub is a production-grade educational platform featuring:
 
 ## Tech Stack
 
-- Backend: Flask 3.1.0 (Python 3.11+)
+- Backend: FastAPI + Uvicorn (Python 3.11+)
 - AI: Google Gemini 1.5 Flash
 - Translation: Google Cloud Translate v2
 - Storage: Firebase Admin / Firestore
@@ -29,7 +29,7 @@ MatdaanHub is a production-grade educational platform featuring:
 
 ```text
 matdaanhub/
-  app.py
+  main.py
   config.py
   requirements.txt
   Dockerfile
@@ -47,6 +47,9 @@ matdaanhub/
     translate_service.py
     firebase_service.py
     vertex_service.py
+    limiter_service.py
+  schemas/
+    election_schemas.py
   templates/
     index.html
   static/
@@ -82,7 +85,7 @@ matdaanhub/
 ## Security
 
 - Input sanitization with bleach
-- Rate limiting with Flask-Limiter
+- Rate limiting with slowapi
 - Security headers including CSP, X-Frame-Options, and X-Content-Type-Options
 - Configurable limiter backend via RATELIMIT_STORAGE_URI
   - Local default: memory://
@@ -129,7 +132,9 @@ gcloud run deploy matdaanhub \
 
 ```bash
 pip install -r requirements.txt
-python app.py
+# Copy and fill in your environment variables
+cp .env.example .env
+python main.py
 ```
 
 ## Environment Variables

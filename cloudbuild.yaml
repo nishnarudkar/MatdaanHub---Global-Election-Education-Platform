@@ -41,7 +41,10 @@ options:
 timeout: '1800s'
 
 substitutions:
-  _GEMINI_API_KEY: 'your-gemini-api-key'
+  # Set this in your Cloud Build trigger configuration:
+  # gcloud builds triggers create ... --substitutions=_GEMINI_API_KEY=<your-key>
+  # Or via the GCP Console under Cloud Build > Triggers > Substitution variables
+  _GEMINI_API_KEY: ''
 
 tags:
   - 'matdaanhub'

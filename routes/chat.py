@@ -13,6 +13,13 @@ from config import (
     MAX_MESSAGE_LENGTH,
     MIN_MESSAGE_LENGTH,
 )
+
+
+def _sanitize_input(text: str) -> str:
+    """Sanitize raw string input by stripping all HTML tags."""
+    if not text:
+        return ""
+    return bleach.clean(text, tags=[], strip=True).strip()
 from services.gemini_service import get_gemini_service, GeminiService
 from services.firebase_service import get_firebase_service, FirebaseService
 from services.vertex_service import get_vertex_service, VertexService

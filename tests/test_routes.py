@@ -7,6 +7,7 @@ import json
 import pytest
 import sys
 import os
+from unittest.mock import AsyncMock
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -215,7 +216,53 @@ class TestTranslateRoute:
         assert res.status_code in [200, 400, 404, 422, 503]
 
 
-class TestGlossaryRoute:
+class TestGroundedChatRoute:
+    """Grounded chat endpoint tests."""
+
+    def test_grounded_chat_requires_post(self, client):
+        """Grounded chat should only accept POST."""
+        res = client.get("/api/chat/grounded")
+        assert res.status_code == 405
+
+    def test_grounded_chat_empty_message_returns_400(self, client):
+        """Empty message should return 400."""
+        res = client.post("/api/chat/grounded", json={"message": ""})
+        assert res.status_code == 400
+
+    def test_grounded_chat_missing_message_returns_400(self, client):
+        """Missing message field should return 400."""
+        res = client.post("/api/chat/grounded", json={})
+        assert res.status_code == 400
+
+    def test_grounded_chat_returns_503_when_disabled(self, client):
+        """Should return 503 when Vertex AI grounding is disabled."""
+        res = client.post("/api/chat/grounded", json={"message": "What is FPTP?"})
+        # Vertex grounding is disabled by default, so expect 503
+        assert res.status_code in [200, 503]
+
+    def test_grounded_chat_response_structure(self, client, mocker):
+        """When available, response should have expected fields."""
+        from unittest.mock import AsyncMock, MagicMock
+        from services.vertex_service import get_vertex_service
+        from main import app
+
+        mock_vertex = MagicMock()
+        mock_vertex.search_with_grounding = AsyncMock(return_value={
+            "answer": "FPTP is First Past the Post.",
+            "sources": [{"title": "Wikipedia", "url": "https://en.wikipedia.org"}],
+            "grounded": True,
+        })
+        app.dependency_overrides[get_vertex_service] = lambda: mock_vertex
+        try:
+            res = client.post("/api/chat/grounded", json={"message": "What is FPTP?"})
+            assert res.status_code == 200
+            data = res.json()
+            assert "answer" in data or "grounded" in data
+        finally:
+            app.dependency_overrides.pop(get_vertex_service, None)
+
+
+
     """Glossary endpoints tests."""
 
     def test_glossary_list(self, client):

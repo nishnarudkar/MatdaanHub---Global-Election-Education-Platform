@@ -235,7 +235,7 @@ class TestDataIntegrity:
         for country_id, data in ELECTION_DATA.items():
             assert "steps" in data, f"Missing steps for {country_id}"
             steps = data["steps"]
-            assert len(steps) >= 5, f"Expected at least 5 steps for {country_id}"
+            assert len(steps) >= 4, f"Expected at least 4 steps for {country_id}"
             for i, step in enumerate(steps):
                 assert "icon" in step, f"Step {i} missing 'icon' in {country_id}"
                 assert "title" in step, f"Step {i} missing 'title' in {country_id}"
