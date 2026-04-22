@@ -463,5 +463,355 @@
       "Two-round system ensures majority winner",
       "One of the world's most advanced electronic voting systems"
     ]
+  },
+  "south_africa": {
+    "name": "South Africa",
+    "flag": "🇿🇦",
+    "system": "Parliamentary Republic",
+    "body": "Electoral Commission of South Africa (IEC)",
+    "frequency": "Every 5 years",
+    "voters": "27 million+",
+    "color": "#007A4D",
+    "description": "Voters vote for political parties rather than individuals in a closed-list proportional representation system. The National Assembly then elects the President from its members.",
+    "timeline": [
+      {
+        "phase": "Proclamation of Election",
+        "days": "-90",
+        "description": "The President announces the election date and the voters' roll closes."
+      },
+      {
+        "phase": "Candidate Nomination",
+        "days": "-60",
+        "description": "Parties submit their lists of candidates for national and provincial legislatures."
+      },
+      {
+        "phase": "Voter Education Campaign",
+        "days": "-90 to -1",
+        "description": "IEC conducts widespread education on how and where to vote."
+      },
+      {
+        "phase": "Special Voting",
+        "days": "-2 to -1",
+        "description": "Voting for those unable to reach polling stations (home visits or designated stations)."
+      },
+      {
+        "phase": "Election Day",
+        "days": "0",
+        "description": "Public holiday. Citizens cast two ballots: one for national, one for provincial."
+      },
+      {
+        "phase": "Counting & Verification",
+        "days": "+1 to +7",
+        "description": "Votes counted at stations, results scanned and audited at regional centers."
+      },
+      {
+        "phase": "Results Declaration",
+        "days": "+7",
+        "description": "IEC officially declares results and seat allocations."
+      }
+    ],
+    "steps": [
+      {
+        "icon": "📝",
+        "title": "Register as a Voter",
+        "detail": "Must be 18+ and a South African citizen. Register online or on registration weekends."
+      },
+      {
+        "icon": "📍",
+        "title": "Verify Your Station",
+        "detail": "Check your registration status and voting station by SMSing your ID number to 32810."
+      },
+      {
+        "icon": "🪪",
+        "title": "Bring Your Green ID",
+        "detail": "Must have a green barcoded ID book, smart ID card, or temporary ID certificate."
+      },
+      {
+        "icon": "🗳️",
+        "title": "Mark the Ballots",
+        "detail": "Make a single cross (X) next to your chosen party on both national and provincial ballots."
+      },
+      {
+        "icon": "🔏",
+        "title": "Ballot Box Security",
+        "detail": "Ensure your ballots are stamped on the back and placed into sealed boxes."
+      }
+    ],
+    "facts": [
+      "Voters choose parties, not individual candidates",
+      "The President is not directly elected by citizens",
+      "South Africa has a high voter registration rate",
+      "Independent candidates can now run for the National Assembly (as of 2024)",
+      "Election day is typically declared a public holiday to boost turnout"
+    ]
+  },
+  "australia": {
+    "name": "Australia",
+    "flag": "🇦🇺",
+    "system": "Federal Parliamentary Constitutional Monarchy",
+    "body": "Australian Electoral Commission (AEC)",
+    "frequency": "At least every 3 years",
+    "voters": "17 million+",
+    "color": "#00843D",
+    "description": "Australia features compulsory voting and a preferential (ranked) voting system. Citizens must rank candidates in order of preference. The party with the majority in the House of Representatives forms government.",
+    "timeline": [
+      {
+        "phase": "Issue of Writs",
+        "days": "-33",
+        "description": "The Governor-General issues writs, officially starting the election process."
+      },
+      {
+        "phase": "Enrolment Closes",
+        "days": "-26",
+        "description": "Final chance for citizens to register or update their address."
+      },
+      {
+        "phase": "Close of Nominations",
+        "days": "-22",
+        "description": "Deadline for candidates to register. Ballot paper order is drawn."
+      },
+      {
+        "phase": "Early Voting Opens",
+        "days": "-12",
+        "description": "Pre-poll voting starts for those unable to vote on election day."
+      },
+      {
+        "phase": "Election Day",
+        "days": "0",
+        "description": "Always a Saturday. Polling stations open 8am–6pm. Famous for 'Democracy Sausages'."
+      },
+      {
+        "phase": "Return of Writs",
+        "days": "+10 to +30",
+        "description": "Counting finalized and results officially returned."
+      }
+    ],
+    "steps": [
+      {
+        "icon": "✍️",
+        "title": "Enrol to Vote",
+        "detail": "Enrolment is mandatory for all citizens 18+. Update your details at aec.gov.au."
+      },
+      {
+        "icon": "🔢",
+        "title": "Understand Ranking",
+        "detail": "You must number every box on the green House of Representatives ballot paper."
+      },
+      {
+        "icon": "🗳️",
+        "title": "Cast Your Vote",
+        "detail": "Vote at any polling place in your state or territory on election day."
+      },
+      {
+        "icon": "🌭",
+        "title": "Enjoy the Sausage Sizzle",
+        "detail": "Many polling places host BBQs. Getting a 'Democracy Sausage' is a national tradition."
+      }
+    ],
+    "facts": [
+      "Voting is compulsory; you may be fined if you don't vote",
+      "Preferential voting means your vote can still count even if your top choice loses",
+      "Election day is always on a Saturday",
+      "The 'Democracy Sausage' is a cultural phenomenon at polling booths",
+      "Australia was one of the first countries to introduce secret ballots"
+    ]
+  },
+  "japan": {
+    "name": "Japan",
+    "flag": "🇯🇵",
+    "system": "Parliamentary Constitutional Monarchy",
+    "body": "Ministry of Internal Affairs and Communications",
+    "frequency": "At least every 4 years (Lower House)",
+    "voters": "105 million+",
+    "color": "#BC002D",
+    "description": "Japan uses a parallel voting system. Voters cast two ballots: one for a candidate in a local district and one for a party in a regional proportional block. The Prime Minister is elected by the Diet.",
+    "timeline": [
+      {
+        "phase": "Dissolution of Diet",
+        "days": "-17",
+        "description": "Lower House is dissolved. Cabinet sets the election date."
+      },
+      {
+        "phase": "Official Announcement",
+        "days": "-12",
+        "description": "Candidates formally register. Official campaigning period begins."
+      },
+      {
+        "phase": "Early Voting",
+        "days": "-11 to -1",
+        "description": "Voters can cast ballots early at municipal offices or stations."
+      },
+      {
+        "phase": "Election Day",
+        "days": "0",
+        "description": "Polls open 7am–8pm. Counting begins immediately after polls close."
+      },
+      {
+        "phase": "Special Diet Session",
+        "days": "+10 to +30",
+        "description": "Newly elected Diet meets to elect the Prime Minister."
+      }
+    ],
+    "steps": [
+      {
+        "icon": "📮",
+        "title": "Receive Admission Ticket",
+        "detail": "Voters receive a postcard in the mail indicating their polling station."
+      },
+      {
+        "icon": "✏️",
+        "title": "Write the Name",
+        "detail": "Voters must write the name of the candidate or party on the ballot paper manually."
+      },
+      {
+        "icon": "🗳️",
+        "title": "Two Ballots",
+        "detail": "Cast one ballot for a local candidate and another for a party for proportional representation."
+      },
+      {
+        "icon": "🏁",
+        "title": "Watch the 'Haya-uchi'",
+        "detail": "Broadcasters use exit polls to project winners ('Haya-uchi') immediately after 8pm."
+      }
+    ],
+    "facts": [
+      "Japan has one of the shortest official campaign periods (12 days)",
+      "Ballots are manually written by voters, not just ticked",
+      "Campaigning rules are very strict (no door-to-door, limited posters)",
+      "Voters must be 18 or older (lowered from 20 in 2016)",
+      "Electronic voting is generally not used for national elections"
+    ]
+  },
+  "mexico": {
+    "name": "Mexico",
+    "flag": "🇲🇽",
+    "system": "Federal Presidential Republic",
+    "body": "National Electoral Institute (INE)",
+    "frequency": "Every 6 years (President)",
+    "voters": "98 million+",
+    "color": "#006847",
+    "description": "The President is elected for a single 6-year term (Sexenio) by simple majority. Congress uses a mixed system of direct election and proportional representation.",
+    "timeline": [
+      {
+        "phase": "Pre-Campaign",
+        "days": "-180",
+        "description": "Internal party processes to define candidates."
+      },
+      {
+        "phase": "Official Campaign",
+        "days": "-90 to -4",
+        "description": "Candidates tour the country. Billboards and TV spots are heavily regulated by INE."
+      },
+      {
+        "phase": "Electoral Silence",
+        "days": "-3 to 0",
+        "description": "Period of reflection. All campaigning and propaganda must stop."
+      },
+      {
+        "phase": "Election Day",
+        "days": "0",
+        "description": "First Sunday in June. Polls open 8am–6pm. Results announced via PREP (Preliminary Results)."
+      },
+      {
+        "phase": "Inauguration",
+        "days": "+120",
+        "description": "October 1st (formerly Dec 1st): New President takes the oath of office."
+      }
+    ],
+    "steps": [
+      {
+        "icon": "🪪",
+        "title": "The INE Card",
+        "detail": "The INE voter ID is the most important identification document in Mexico."
+      },
+      {
+        "icon": "📍",
+        "title": "Locate Your 'Casilla'",
+        "detail": "Check the INE website or app to find your assigned voting booth (casilla)."
+      },
+      {
+        "icon": "🗳️",
+        "title": "Mark the Party",
+        "detail": "Ballots feature party logos. Mark the logo of your chosen candidate or coalition."
+      },
+      {
+        "icon": "☝️",
+        "title": "Get Indelible Ink",
+        "detail": "Voters' thumbs are marked with indelible ink to prevent double-voting."
+      }
+    ],
+    "facts": [
+      "Mexico elected its first female president in 2024",
+      "The President cannot be re-elected (Sufragio Efectivo, No Reelección)",
+      "INE is an autonomous body highly trusted by citizens",
+      "Voter IDs (Credencial para Votar) are free and mandatory for voting",
+      "Preliminary results are updated live online on election night"
+    ]
+  },
+  "canada": {
+    "name": "Canada",
+    "flag": "🇨🇦",
+    "system": "Federal Parliamentary Constitutional Monarchy",
+    "body": "Elections Canada",
+    "frequency": "Every 4 years",
+    "voters": "27 million+",
+    "color": "#FF0000",
+    "description": "Canada uses the First-Past-The-Post system. Voters in 338 electoral districts (ridings) elect one MP each. The party with the most seats usually forms the government, and its leader becomes Prime Minister.",
+    "timeline": [
+      {
+        "phase": "Drop of the Writ",
+        "days": "-36 to -50",
+        "description": "The Prime Minister asks the Governor General to dissolve Parliament."
+      },
+      {
+        "phase": "Voter Information Cards",
+        "days": "-20",
+        "description": "Voters receive cards in the mail with their polling station info."
+      },
+      {
+        "phase": "Advance Polling",
+        "days": "-10 to -7",
+        "description": "Four days of early voting available for those busy on election day."
+      },
+      {
+        "phase": "Election Day",
+        "days": "0",
+        "description": "Polls open for 12 hours. Times are staggered across 6 time zones so results aren't leaked."
+      },
+      {
+        "phase": "Government Formation",
+        "days": "+1 to +14",
+        "description": "New PM and Cabinet are sworn in by the Governor General."
+      }
+    ],
+    "steps": [
+      {
+        "icon": "📬",
+        "title": "Check Your Registration",
+        "detail": "Most Canadians are registered through tax filings, but check at elections.ca."
+      },
+      {
+        "icon": "🪪",
+        "title": "Prove Your Identity",
+        "detail": "Show your driver's license or two other pieces of ID with your address."
+      },
+      {
+        "icon": "✉️",
+        "title": "Mark Your X",
+        "detail": "Mark a single circle with an X using the provided pencil."
+      },
+      {
+        "icon": "📊",
+        "title": "Watch the 'Red Wall'",
+        "detail": "Follow results as they roll in from Atlantic Canada to the West Coast."
+      }
+    ],
+    "facts": [
+      "Canada has 338 ridings, each representing about 110,000 people",
+      "Voters must be 18+ and Canadian citizens",
+      "The leader of the winning party becomes Prime Minister",
+      "Elections are managed by a non-partisan agency (Elections Canada)",
+      "Fixed election dates exist, but elections can be called early"
+    ]
   }
 }
