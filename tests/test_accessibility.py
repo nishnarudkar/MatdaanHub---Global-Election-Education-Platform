@@ -12,7 +12,9 @@ from bs4 import BeautifulSoup
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from main import app
-from routes.elections import _load_elections_data
+def _load_elections_data():
+    with open(os.path.join(os.path.dirname(__file__), '..', 'data', 'elections.json'), encoding='utf-8') as f:
+        return json.load(f)
 ELECTION_DATA = _load_elections_data()
 
 

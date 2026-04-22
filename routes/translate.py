@@ -34,7 +34,33 @@ class TranslateRequest(BaseModel):
         return cleaned
 
 
+class TranslateBatchRequest(BaseModel):
+    texts: List[str] = Field(..., min_length=1)
+    target_language: str = Field(..., min_length=2, max_length=5)
+    source_language: Optional[str] = None
+
+    @field_validator("texts")
+    @classmethod
+    def sanitize_texts(cls, v: List[str]) -> List[str]:
+        """Sanitize text content using bleach."""
+        cleaned_texts = []
+        for text in v:
+            # We want to skip empty texts or clean them
+            if text:
+                cleaned = bleach.clean(text, tags=[], strip=True).strip()
+                cleaned_texts.append(cleaned)
+            else:
+                cleaned_texts.append("")
+                
+        # Calculate total length
+        total_len = sum(len(t) for t in cleaned_texts)
+        if total_len > MAX_TEXT_TRANSLATION_LENGTH * 5: # Allow higher total for batch, but not insane
+            raise ValueError(f"Total batch text length exceeds limit ({total_len})")
+            
+        return cleaned_texts
+
 class DetectRequest(BaseModel):
+
     text: str = Field(..., min_length=1, max_length=MAX_TEXT_TRANSLATION_LENGTH)
 
     @field_validator("text")
@@ -97,6 +123,56 @@ async def translate_text_route(
         logger.error(f"Translation route error: {e}")
         raise HTTPException(status_code=500, detail="Failed to translate text")
 
+
+@router.post("/api/translate/batch")
+@limiter.limit("20/minute")
+async def translate_batch_route(
+    request: Request,
+    request_data: TranslateBatchRequest,
+    translate_service: TranslateService = Depends(get_translate_service)
+) -> dict:
+    """
+    Translate a batch of texts to target language asynchronously.
+
+    Returns:
+        JSON with translated_texts, source_language, target_language
+    """
+    try:
+        texts = request_data.texts
+        
+        if not translate_service.is_available():
+            logger.warning("Translation service unavailable")
+            raise HTTPException(
+                status_code=503,
+                detail={
+                    "error": "Translation service not available",
+                    "translated_texts": texts,
+                }
+            )
+
+        # Translate asynchronously
+        result = await translate_service.translate_batch(
+            texts=texts,
+            target_language=request_data.target_language.lower(),
+            source_language=request_data.source_language.lower() if request_data.source_language else None,
+        )
+
+        if result.get("error"):
+            logger.warning(f"Batch translation error: {result.get('error')}")
+            raise HTTPException(status_code=400, detail=result)
+
+        logger.info(
+            f"Batch translation completed ({len(texts)} items): {result.get('source_language')} "
+            f"-> {result.get('target_language')}"
+        )
+
+        return result
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Batch translation route error: {e}")
+        raise HTTPException(status_code=500, detail="Failed to translate text batch")
 
 @router.post("/api/detect")
 @limiter.limit("60/minute")

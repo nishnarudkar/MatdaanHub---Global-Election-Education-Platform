@@ -131,6 +131,86 @@ class TranslateService:
                 "error": str(e),
             }
 
+    async def translate_batch(
+        self,
+        texts: list[str],
+        target_language: str,
+        source_language: Optional[str] = None,
+    ) -> dict:
+        """
+        Translate a list of texts to target language asynchronously.
+
+        Args:
+            texts: List of strings to translate
+            target_language: Target language code
+            source_language: Source language code
+
+        Returns:
+            Dictionary with 'translated_texts', 'source_language', and 'target_language'
+        """
+        if not self.available or not self.client:
+            return {
+                "translated_texts": texts,
+                "source_language": source_language or "en",
+                "target_language": target_language,
+                "error": "Translation service unavailable",
+            }
+
+        if not texts:
+            return {
+                "translated_texts": [],
+                "source_language": source_language or "en",
+                "target_language": target_language,
+            }
+
+        if target_language not in SUPPORTED_LANGUAGES:
+            return {
+                "translated_texts": texts,
+                "source_language": source_language or "en",
+                "target_language": target_language,
+                "error": f"Language {target_language} not supported",
+            }
+
+        try:
+            self.call_count += 1
+            import anyio
+
+            # Extract actual strings and filter out empty ones while keeping indices
+            valid_texts = [t for t in texts if t and t.strip()]
+            
+            if not valid_texts:
+                return {
+                    "translated_texts": texts,
+                    "source_language": source_language or "en",
+                    "target_language": target_language,
+                }
+
+            # Google Cloud Translate SDK handles lists directly
+            results = await anyio.to_thread.run_sync(
+                self.client.translate,
+                texts,
+                target_language,
+                source_language
+            )
+
+            translated_texts = [res.get("translatedText", text) for res, text in zip(results, texts)]
+            detected_source = results[0].get("detectedSourceLanguage", source_language or "en") if results else (source_language or "en")
+
+            return {
+                "translated_texts": translated_texts,
+                "source_language": detected_source,
+                "target_language": target_language,
+            }
+
+        except Exception as e:
+            logger.error(f"Batch translation error: {e}")
+            return {
+                "translated_texts": texts,
+                "source_language": source_language or "en",
+                "target_language": target_language,
+                "error": str(e),
+            }
+
     async def detect_language(self, text: str) -> str:
         """
         Detect the language of given text asynchronously.

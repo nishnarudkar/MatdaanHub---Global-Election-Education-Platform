@@ -97,9 +97,10 @@ def create_app() -> FastAPI:
     @app.get("/", response_class=HTMLResponse)
     async def index(request: Request):
         """Render main SPA template."""
-        from routes.elections import _load_elections_data
-
-        elections_data = _load_elections_data()
+        from services.firebase_service import get_firebase_service
+        firebase_service = get_firebase_service()
+        
+        elections_data = await firebase_service.get_all_elections()
         countries = {}
         for key, data in elections_data.items():
             countries[key] = {

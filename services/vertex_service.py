@@ -81,22 +81,59 @@ class VertexService:
 
         try:
             self.call_count += 1
+            import anyio
 
             # Build context-aware query
             search_query = query
             if country:
                 search_query = f"{country} election {query}"
 
-            # TODO: Implement actual Vertex AI Search when credentials are available
-            # For now, return structured response format
-            logger.info(f"Grounded search would query: {search_query} (call #{self.call_count})")
+            logger.info(f"Executing grounded search for: {search_query} (call #{self.call_count})")
 
-            # Placeholder for actual grounding implementation
+            def _sync_search():
+                # Initialize Google Search grounding tool
+                tool = generative_models.Tool.from_google_search_retrieval(
+                    generative_models.grounding.GoogleSearchRetrieval()
+                )
+                
+                # Use Gemini 1.5 Pro for accurate grounded Q&A
+                model = generative_models.GenerativeModel("gemini-1.5-pro")
+                
+                # Lower temperature for more factual, grounded responses
+                config = generative_models.GenerationConfig(temperature=0.2)
+                
+                response = model.generate_content(
+                    search_query,
+                    tools=[tool],
+                    generation_config=config
+                )
+                return response
+
+            response = await anyio.to_thread.run_sync(_sync_search)
+            
+            answer_text = response.text
+            sources_list = []
+            
+            # Extract grounding sources
+            if response.candidates and response.candidates[0].grounding_metadata:
+                metadata = response.candidates[0].grounding_metadata
+                if hasattr(metadata, "grounding_chunks"):
+                    for chunk in metadata.grounding_chunks:
+                        if hasattr(chunk, "web") and chunk.web:
+                            sources_list.append({
+                                "title": getattr(chunk.web, "title", "Web Source"),
+                                "url": getattr(chunk.web, "uri", ""),
+                            })
+
+            # Format and append citations
+            citations = self.cite_sources(sources_list)
+            if citations:
+                answer_text += citations
+
             return {
-                "answer": None,
-                "sources": [],
-                "grounded": False,
-                "message": "Vertex AI grounding not fully configured in this environment",
+                "answer": answer_text,
+                "sources": sources_list,
+                "grounded": len(sources_list) > 0,
             }
 
         except Exception as e:
