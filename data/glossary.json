@@ -1,0 +1,124 @@
+{
+  "glossary": [
+    {
+      "term": "Ballot",
+      "definition": "A slip of paper or electronic method used by voters to cast their vote in an election."
+    },
+    {
+      "term": "Candidate",
+      "definition": "A person who is running for political office in an election."
+    },
+    {
+      "term": "Constituency",
+      "definition": "A geographical area represented by an elected official, such as a Member of Parliament or Congress representative."
+    },
+    {
+      "term": "Coalition",
+      "definition": "An alliance of political parties that come together to form a government or achieve a common goal."
+    },
+    {
+      "term": "Democracy",
+      "definition": "A system of government where power rests with the people, who exercise that power through voting and participation."
+    },
+    {
+      "term": "Electoral College",
+      "definition": "In the USA, the group of 538 electors who formally cast votes to elect the President, rather than direct popular vote."
+    },
+    {
+      "term": "Electoral System",
+      "definition": "The method by which votes are cast, counted, and converted into seats or offices."
+    },
+    {
+      "term": "Electorate",
+      "definition": "All the people in a country or area who are entitled to vote in an election."
+    },
+    {
+      "term": "First Past the Post (FPTP)",
+      "definition": "An electoral system where the candidate with the most votes in a constituency wins, even without an absolute majority."
+    },
+    {
+      "term": "Franchise",
+      "definition": "The right to vote in political elections, also known as suffrage."
+    },
+    {
+      "term": "General Election",
+      "definition": "An election held across the entire country to choose representatives for the whole legislature."
+    },
+    {
+      "term": "Government Formation",
+      "definition": "The process of creating a government after an election, typically involving the party with the most seats forming the executive."
+    },
+    {
+      "term": "Incumbent",
+      "definition": "The person currently holding a political office who is running for re-election."
+    },
+    {
+      "term": "Majority",
+      "definition": "More than half of the total number of votes or seats, often required to win or form a government."
+    },
+    {
+      "term": "Manifesto",
+      "definition": "A political party's published statement of their policies, principles, and plans for their time in office."
+    },
+    {
+      "term": "Nomination",
+      "definition": "The formal process of officially selecting a candidate to run for a political office."
+    },
+    {
+      "term": "Parliament",
+      "definition": "The legislative body of a country, consisting of elected representatives who make laws."
+    },
+    {
+      "term": "Polling Station",
+      "definition": "The location where voters go to cast their votes during an election."
+    },
+    {
+      "term": "Proportional Representation (PR)",
+      "definition": "An electoral system where the number of seats a party wins is proportional to the number of votes they receive."
+    },
+    {
+      "term": "Quorum",
+      "definition": "The minimum number of members that must be present to conduct business in a legislative body."
+    },
+    {
+      "term": "Recall Election",
+      "definition": "A special election that allows voters to remove an elected official before their term ends."
+    },
+    {
+      "term": "Referendum",
+      "definition": "A direct vote by the entire electorate on a specific issue or proposal, rather than electing representatives."
+    },
+    {
+      "term": "Representation",
+      "definition": "The act of one person or group acting or speaking on behalf of another in political matters."
+    },
+    {
+      "term": "Runoff",
+      "definition": "A second round of voting between the top candidates when no candidate achieves a required majority in the first round."
+    },
+    {
+      "term": "Suffrage",
+      "definition": "The right to vote in elections, also known as the franchise."
+    },
+    {
+      "term": "Term",
+      "definition": "The length of time an elected official serves in office before facing re-election."
+    },
+    {
+      "term": "Turnout",
+      "definition": "The percentage or number of eligible voters who actually vote in an election."
+    },
+    {
+      "term": "Voting Machine",
+      "definition": "A mechanical, electronic, or digital device used to tabulate votes cast by voters."
+    },
+    {
+      "term": "Voter Registration",
+      "definition": "The process by which people officially enroll themselves to be eligible to vote in elections."
+    },
+    {
+      "term": "Constituency Boundary",
+      "definition": "The geographical limits that define a constituency or electoral district."
+    }
+  ]
+}

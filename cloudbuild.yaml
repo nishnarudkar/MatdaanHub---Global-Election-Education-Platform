@@ -1,0 +1,49 @@
+steps:
+  # Step 1: Build Docker image
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - 'gcr.io/$PROJECT_ID/matdaanhub:$SHORT_SHA'
+      - '-t'
+      - 'gcr.io/$PROJECT_ID/matdaanhub:latest'
+      - '.'
+
+  # Step 2: Push image to Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - 'gcr.io/$PROJECT_ID/matdaanhub:$SHORT_SHA'
+
+  # Step 3: Deploy to Cloud Run
+  - name: 'gcr.io/cloud-builders/run'
+    args:
+      - 'deploy'
+      - 'matdaanhub'
+      - '--image'
+      - 'gcr.io/$PROJECT_ID/matdaanhub:$SHORT_SHA'
+      - '--region'
+      - 'us-central1'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
+      - '--set-env-vars'
+      - 'GEMINI_API_KEY=${_GEMINI_API_KEY},GOOGLE_CLOUD_PROJECT=$PROJECT_ID,GOOGLE_TRANSLATE_ENABLED=true'
+
+images:
+  - 'gcr.io/$PROJECT_ID/matdaanhub:$SHORT_SHA'
+  - 'gcr.io/$PROJECT_ID/matdaanhub:latest'
+
+options:
+  logging: CLOUD_LOGGING_ONLY
+  machineType: 'N1_HIGHCPU_8'
+
+timeout: '1800s'
+
+substitutions:
+  _GEMINI_API_KEY: 'your-gemini-api-key'
+
+tags:
+  - 'matdaanhub'
+  - 'cloud-run'
+  - 'gcp'

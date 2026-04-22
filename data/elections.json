@@ -1,0 +1,467 @@
+{
+  "india": {
+    "name": "India",
+    "flag": "🇮🇳",
+    "system": "Parliamentary Democracy",
+    "body": "Election Commission of India (ECI)",
+    "frequency": "Every 5 years (Lok Sabha)",
+    "voters": "970 million+",
+    "color": "#FF9933",
+    "description": "The world's largest democracy. Citizens elect 543 Members of Parliament (MPs) to the Lok Sabha. The party or coalition with majority forms the government, and the Prime Minister is the head of government.",
+    "timeline": [
+      {
+        "phase": "Model Code of Conduct",
+        "days": "-60",
+        "description": "ECI announces elections; strict conduct rules kick in for all parties and candidates."
+      },
+      {
+        "phase": "Voter Roll Finalization",
+        "days": "-45",
+        "description": "Final electoral rolls published. Citizens can verify/correct their names at local booths."
+      },
+      {
+        "phase": "Nomination Filing",
+        "days": "-28",
+        "description": "Candidates file nominations with Returning Officers. Deposits required."
+      },
+      {
+        "phase": "Scrutiny of Nominations",
+        "days": "-25",
+        "description": "Returning Officers verify candidate eligibility and documents."
+      },
+      {
+        "phase": "Withdrawal Deadline",
+        "days": "-21",
+        "description": "Last day for candidates to withdraw their nominations."
+      },
+      {
+        "phase": "Campaign Period",
+        "days": "-21 to -2",
+        "description": "Active campaigning: rallies, advertisements, door-to-door outreach."
+      },
+      {
+        "phase": "Campaign Silence",
+        "days": "-2",
+        "description": "48-hour silent period before polling. No new campaigning allowed."
+      },
+      {
+        "phase": "Polling Day",
+        "days": "0",
+        "description": "Citizens vote at designated booths using Electronic Voting Machines (EVMs)."
+      },
+      {
+        "phase": "Vote Counting",
+        "days": "+7 to +14",
+        "description": "Votes counted under strict supervision. Results declared constituency-wise."
+      },
+      {
+        "phase": "Government Formation",
+        "days": "+14 to +30",
+        "description": "Winning party/coalition invited to form government; PM sworn in."
+      }
+    ],
+    "steps": [
+      {
+        "icon": "🪪",
+        "title": "Register as a Voter",
+        "detail": "Be 18+, Indian citizen. Register at voters.eci.gov.in or local BLO (Booth Level Officer)."
+      },
+      {
+        "icon": "🗂️",
+        "title": "Verify Your Name",
+        "detail": "Check electoral roll at your local booth or online using your EPIC number."
+      },
+      {
+        "icon": "🔍",
+        "title": "Know Your Constituency",
+        "detail": "Find your Lok Sabha / Vidhan Sabha constituency using the Voter Helpline App."
+      },
+      {
+        "icon": "🏷️",
+        "title": "Collect Voter ID / Slip",
+        "detail": "Carry your EPIC card or any approved photo ID on polling day."
+      },
+      {
+        "icon": "🗳️",
+        "title": "Cast Your Vote",
+        "detail": "Visit your assigned booth, get inked finger, press EVM button for your candidate."
+      },
+      {
+        "icon": "✅",
+        "title": "Results & Government Formation",
+        "detail": "Party crossing 272 seats forms government; President invites to form cabinet."
+      }
+    ],
+    "facts": [
+      "India uses Electronic Voting Machines (EVMs) since 1999",
+      "Voter turnout in 2024 General Election: ~67%",
+      "Polling can span 7 phases across 44+ days",
+      "NOTA (None of the Above) option available since 2013",
+      "543 seats in Lok Sabha, elected every 5 years",
+      "ECI uses a multi-phase approach to ensure transparency"
+    ]
+  },
+  "usa": {
+    "name": "United States",
+    "flag": "🇺🇸",
+    "system": "Federal Presidential Republic",
+    "body": "Federal Election Commission (FEC)",
+    "frequency": "Presidential every 4 years; Congress every 2 years",
+    "voters": "240 million+",
+    "color": "#3C3B6E",
+    "description": "Citizens vote for President via the Electoral College (538 electors). Congress consists of the Senate (100 seats) and House of Representatives (435 seats). Presidential candidates need 270 electoral votes to win.",
+    "timeline": [
+      {
+        "phase": "Primary Season",
+        "days": "-300 to -150",
+        "description": "Party primaries and caucuses held state-by-state to select party nominees."
+      },
+      {
+        "phase": "Party Conventions",
+        "days": "-100",
+        "description": "Democrats and Republicans formally nominate their presidential candidates."
+      },
+      {
+        "phase": "Debate Season",
+        "days": "-70 to -30",
+        "description": "Presidential debates broadcast nationally; VP debate included."
+      },
+      {
+        "phase": "Early Voting Opens",
+        "days": "-45 to -15",
+        "description": "Many states open early in-person voting or mail ballot distribution."
+      },
+      {
+        "phase": "Voter Registration Deadlines",
+        "days": "-30 to -15",
+        "description": "Most states require registration 15–30 days before Election Day."
+      },
+      {
+        "phase": "Election Day",
+        "days": "0",
+        "description": "First Tuesday after first Monday in November. Polls open 6am–8pm local time."
+      },
+      {
+        "phase": "Electoral Vote Casting",
+        "days": "+40",
+        "description": "Electors in each state officially cast their Electoral College votes."
+      },
+      {
+        "phase": "Congressional Certification",
+        "days": "+70",
+        "description": "Congress certifies the Electoral College results in joint session."
+      },
+      {
+        "phase": "Inauguration Day",
+        "days": "+77",
+        "description": "January 20th: new President sworn in at the U.S. Capitol."
+      }
+    ],
+    "steps": [
+      {
+        "icon": "📋",
+        "title": "Register to Vote",
+        "detail": "Register at vote.gov. Deadlines vary by state (15–30 days before election)."
+      },
+      {
+        "icon": "🗺️",
+        "title": "Find Your Polling Place",
+        "detail": "Use vote.gov or your county clerk's website to find your assigned polling location."
+      },
+      {
+        "icon": "🪪",
+        "title": "Check ID Requirements",
+        "detail": "ID laws vary by state — some require photo ID, others accept signature matching."
+      },
+      {
+        "icon": "📬",
+        "title": "Consider Mail-In Voting",
+        "detail": "Request absentee/mail ballot early. Available in all 50 states with varying rules."
+      },
+      {
+        "icon": "🗳️",
+        "title": "Cast Your Vote",
+        "detail": "Vote for President, Congress, and local races on paper ballots or touchscreen machines."
+      },
+      {
+        "icon": "🏛️",
+        "title": "Electoral College Decides",
+        "detail": "270 of 538 electoral votes needed to win the presidency. Results certified by Congress."
+      }
+    ],
+    "facts": [
+      "The US has no federal holiday for Election Day",
+      "Electoral College was established in 1787",
+      "2020 saw record 158.4 million votes cast",
+      "Some states allow same-day voter registration",
+      "538 total Electoral College votes needed",
+      "Winner-take-all system in 48 states and DC"
+    ]
+  },
+  "uk": {
+    "name": "United Kingdom",
+    "flag": "🇬🇧",
+    "system": "Constitutional Monarchy / Parliamentary Democracy",
+    "body": "Electoral Commission",
+    "frequency": "Every 5 years (Fixed-term) or earlier by PM",
+    "voters": "48 million+",
+    "color": "#C8102E",
+    "description": "Citizens elect 650 Members of Parliament to the House of Commons using First Past the Post. The leader of the party with most MPs is invited by the Monarch to become Prime Minister and form a government.",
+    "timeline": [
+      {
+        "phase": "Dissolution of Parliament",
+        "days": "-25",
+        "description": "Parliament dissolved; all MPs' terms end. Writ of election issued."
+      },
+      {
+        "phase": "Nomination Period",
+        "days": "-19",
+        "description": "Candidates submit nomination papers and £500 deposit to returning officers."
+      },
+      {
+        "phase": "Register to Vote Deadline",
+        "days": "-12",
+        "description": "Last day to register to vote or change registration details."
+      },
+      {
+        "phase": "Postal Vote Deadline",
+        "days": "-11",
+        "description": "Final date to apply for a postal vote."
+      },
+      {
+        "phase": "Campaign Period",
+        "days": "-25 to -1",
+        "description": "Candidates and parties campaign. Strict spending limits apply."
+      },
+      {
+        "phase": "Polling Day",
+        "days": "0",
+        "description": "Always a Thursday. Polls open 7am–10pm. Paper ballots, X marks the box."
+      },
+      {
+        "phase": "Count & Declaration",
+        "days": "0 to +1",
+        "description": "Counts begin election night. Most seats declared within 24 hours."
+      },
+      {
+        "phase": "Government Formation",
+        "days": "+1 to +3",
+        "description": "Winning party leader visits Buckingham Palace; PM commissioned by the Monarch."
+      }
+    ],
+    "steps": [
+      {
+        "icon": "📝",
+        "title": "Register to Vote",
+        "detail": "Register at gov.uk/register-to-vote. Must be 18+ and a UK/qualifying citizen."
+      },
+      {
+        "icon": "📬",
+        "title": "Choose Voting Method",
+        "detail": "Vote in person, by post, or by proxy. Apply for postal/proxy vote in advance."
+      },
+      {
+        "icon": "🗺️",
+        "title": "Know Your Constituency",
+        "detail": "650 constituencies each elect one MP. Find yours at election.parliament.uk."
+      },
+      {
+        "icon": "🪪",
+        "title": "Bring Voter ID",
+        "detail": "Photo ID now required at polling stations (introduced 2023). Check accepted forms."
+      },
+      {
+        "icon": "✉️",
+        "title": "Mark Your Ballot",
+        "detail": "Receive ballot, enter booth, place a single X next to your chosen candidate."
+      },
+      {
+        "icon": "👑",
+        "title": "Government Formation",
+        "detail": "Party with majority invited by King to form government; PM enters Downing Street."
+      }
+    ],
+    "facts": [
+      "UK uses First Past the Post — no proportional representation",
+      "Polling day is always a Thursday by convention",
+      "Candidates lose deposit if they get less than 5% of votes",
+      "The House of Lords is unelected — appointed or hereditary peers",
+      "650 constituencies, each electing one MP",
+      "Fixed 5-year term unless early dissolution"
+    ]
+  },
+  "eu": {
+    "name": "European Union",
+    "flag": "🇪🇺",
+    "system": "Supranational Democratic Union",
+    "body": "European Parliament / National Electoral Authorities",
+    "frequency": "Every 5 years (European Parliament)",
+    "voters": "370 million+",
+    "color": "#003399",
+    "description": "Citizens of 27 EU member states elect 720 Members of the European Parliament (MEPs). Each country uses its own electoral system (mostly proportional). The Parliament co-legislates EU law alongside the Council of the EU.",
+    "timeline": [
+      {
+        "phase": "Campaign Registration",
+        "days": "-90",
+        "description": "Political parties and pan-European groups register campaigns with national authorities."
+      },
+      {
+        "phase": "Candidate Lists Published",
+        "days": "-45",
+        "description": "Parties publish their candidate lists for each member state."
+      },
+      {
+        "phase": "Voter Registration Check",
+        "days": "-30",
+        "description": "EU citizens living abroad can vote in country of residence or home country."
+      },
+      {
+        "phase": "Pan-European Campaign",
+        "days": "-60 to -3",
+        "description": "Campaigns held simultaneously across all 27 member states."
+      },
+      {
+        "phase": "Polling Window",
+        "days": "0 to +3",
+        "description": "4-day voting window (Thu–Sun) across all member states. Dates vary by country."
+      },
+      {
+        "phase": "Results Night",
+        "days": "+3",
+        "description": "Provisional results announced Sunday evening after last polls close."
+      },
+      {
+        "phase": "New Parliament Constituted",
+        "days": "+30",
+        "description": "MEPs meet for first time; elect President of the European Parliament."
+      },
+      {
+        "phase": "Commission Formation",
+        "days": "+60 to +120",
+        "description": "European Council nominates Commission President; Parliament votes to approve."
+      }
+    ],
+    "steps": [
+      {
+        "icon": "🌍",
+        "title": "Check Eligibility",
+        "detail": "Any EU citizen aged 18+ (16 in some states) can vote in country of residence or origin."
+      },
+      {
+        "icon": "📋",
+        "title": "Register in Your Country",
+        "detail": "EU citizens abroad must register to vote in their country of residence to avoid double-voting."
+      },
+      {
+        "icon": "🗺️",
+        "title": "Understand MEP Allocation",
+        "detail": "Seats allocated by population. Germany gets 96; Malta gets 6. Degressive proportionality."
+      },
+      {
+        "icon": "🗳️",
+        "title": "Vote by Party List",
+        "detail": "Most countries use proportional list systems. Vote for a party, not individual candidates."
+      },
+      {
+        "icon": "📊",
+        "title": "Watch Results",
+        "detail": "Results tallied separately per country but seats totalled across all 27 states."
+      },
+      {
+        "icon": "🏛️",
+        "title": "Parliament Forms Groups",
+        "detail": "MEPs join political groups (not national parties) — EPP, S&D, Renew, Greens, etc."
+      }
+    ],
+    "facts": [
+      "720 MEPs represent 27 countries in the European Parliament",
+      "Voting age is 16 in Austria, Belgium, Germany, Malta",
+      "EU Parliament elections use proportional representation in all states",
+      "Voter turnout hit 50.7% in 2024 — highest since 1994",
+      "Degressive proportionality ensures smaller states have fair representation",
+      "MEPs sit in political groups, not national delegations"
+    ]
+  },
+  "brazil": {
+    "name": "Brazil",
+    "flag": "🇧🇷",
+    "system": "Federal Presidential Republic",
+    "body": "Tribunal Superior Electoral (TSE)",
+    "frequency": "Presidential every 4 years; Congress every 4 years",
+    "voters": "156 million+",
+    "color": "#009C3B",
+    "description": "Brazil has compulsory voting for citizens aged 18–70. The President is elected via two-round majority system. Brazil uses fully electronic voting — one of the world's most advanced systems — since 1996.",
+    "timeline": [
+      {
+        "phase": "Party Conventions",
+        "days": "-120",
+        "description": "Parties hold conventions to formally choose presidential and congressional candidates."
+      },
+      {
+        "phase": "Electoral Campaign Opens",
+        "days": "-90",
+        "description": "Official campaign period begins. TV/radio airtime allocated by TSE rules."
+      },
+      {
+        "phase": "Voter Registration Closes",
+        "days": "-151",
+        "description": "Voters must be registered 151 days before election day."
+      },
+      {
+        "phase": "First Round",
+        "days": "0",
+        "description": "October election. If no candidate gets 50%+1, top two proceed to runoff."
+      },
+      {
+        "phase": "Second Round",
+        "days": "+28",
+        "description": "Runoff between top two candidates — 4 weeks after first round."
+      },
+      {
+        "phase": "Inauguration",
+        "days": "+90",
+        "description": "President takes office on January 1st following election year."
+      }
+    ],
+    "steps": [
+      {
+        "icon": "🪪",
+        "title": "Obtain Voter Title (Título)",
+        "detail": "Register with your Regional Electoral Court (TRE). Mandatory for ages 18–70."
+      },
+      {
+        "icon": "📍",
+        "title": "Find Your Voting Section",
+        "detail": "Your exact voting location (seção eleitoral) is on your voter title card."
+      },
+      {
+        "icon": "💻",
+        "title": "Use the Electronic Ballot",
+        "detail": "Enter candidate number on the urna eletrônica. Confirm with green button."
+      },
+      {
+        "icon": "🔁",
+        "title": "Two Rounds if Needed",
+        "detail": "If no majority in Round 1, return 4 weeks later for the runoff."
+      },
+      {
+        "icon": "⚖️",
+        "title": "Compulsory Voting",
+        "detail": "Voting is mandatory. Missing without justification requires payment of a small fine."
+      },
+      {
+        "icon": "📜",
+        "title": "Justify if Absent",
+        "detail": "Travelers/ill voters can justify absence at TRE within 60 days after election."
+      }
+    ],
+    "facts": [
+      "Voting is compulsory for ages 18–70 (optional for 16–17 and 70+)",
+      "Brazil's electronic voting system has been used since 1996",
+      "TSE allocates free TV/radio campaign time by party size",
+      "A valid voter title is required to get a passport or public job",
+      "Two-round system ensures majority winner",
+      "One of the world's most advanced electronic voting systems"
+    ]
+  }
+}
