@@ -5,7 +5,7 @@ function renderTimeline(timeline) {
   if (!tlEl) return;
 
   tlEl.innerHTML = (timeline || []).map((t, i) =>
-    `<div class="tl-item" role="listitem" style="animation-delay:${i * 0.06}s">
+    `<div class="tl-item tl-scroll-hidden" role="listitem" data-index="${i}">
       <div class="tl-day" aria-label="Day ${t.days}">Day ${t.days}</div>
       <div class="tl-dot" aria-hidden="true"></div>
       <div class="tl-content">
@@ -14,6 +14,20 @@ function renderTimeline(timeline) {
       </div>
     </div>`
   ).join("");
+
+  // Scrollytelling: fade-in each item as it enters the viewport
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        const delay = parseInt(el.dataset.index, 10) * 80;
+        setTimeout(() => el.classList.add("tl-visible"), delay);
+        observer.unobserve(el);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  tlEl.querySelectorAll(".tl-item").forEach(item => observer.observe(item));
 }
 
 function renderVotingSteps(steps) {

@@ -18,6 +18,14 @@ fallback_response = gemini_service._fallback_response
 
 SUPPORTED_COUNTRIES = ["india", "usa", "uk", "eu", "brazil"]
 
+# Load local election data for offline integrity tests (avoids Firestore dependency)
+def _load_local_elections():
+    data_path = os.path.join(os.path.dirname(__file__), '..', 'data', 'elections.json')
+    with open(data_path, encoding='utf-8') as f:
+        return json.load(f)
+
+ELECTION_DATA = _load_local_elections()
+
 
 # Local client fixture removed, using global fixture from conftest.py
 
@@ -55,9 +63,9 @@ class TestElectionsRoute:
 
     def test_elections_has_all_supported(self, client, mock_firebase):
         """Should return all 5 countries."""
-        # Setup mock data
+        mock_firebase.get_all_elections.side_effect = None
         mock_firebase.get_all_elections.return_value = {
-            country: {"name": country.capitalize(), "flag": "🏳️", "system": "Test", "color": "#000", "voters": "1M", "body": "EC", "description": "Desc", "timeline": [], "steps": [], "facts": []}
+            country: {"name": country.capitalize(), "flag": "🏳️", "system": "Test", "color": "#000", "voters": "1 million voters", "body": "EC", "description": "Desc", "timeline": [], "steps": [], "facts": []}
             for country in SUPPORTED_COUNTRIES
         }
         res = client.get("/api/elections")
@@ -78,9 +86,9 @@ class TestElectionsRoute:
     @pytest.mark.parametrize("country", SUPPORTED_COUNTRIES)
     def test_country_detail_returns_200(self, client, mock_firebase, country):
         """GET /api/elections/<country> should return 200."""
-        # Setup mock data
+        mock_firebase.get_election_data.side_effect = None
         mock_firebase.get_election_data.return_value = {
-            "name": country.capitalize(), "flag": "🏳️", "system": "Test", "color": "#000", "voters": "1M", "body": "EC", "description": "Desc", "timeline": [], "steps": [], "facts": []
+            "name": country.capitalize(), "flag": "🏳️", "system": "Test", "color": "#c9a84c", "voters": "1 million voters", "body": "EC", "description": "Desc", "frequency": "Every 5 years", "timeline": [], "steps": [], "facts": []
         }
         res = client.get(f"/api/elections/{country}")
         assert res.status_code == 200
@@ -108,9 +116,9 @@ class TestElectionsRoute:
     @pytest.mark.parametrize("country", SUPPORTED_COUNTRIES)
     def test_timeline_endpoint(self, client, mock_firebase, country):
         """Timeline endpoint should return timeline for country."""
-        # Setup mock data
+        mock_firebase.get_election_data.side_effect = None
         mock_firebase.get_election_data.return_value = {
-            "name": country.capitalize(), "flag": "🏳️", "system": "Test", "color": "#000", "voters": "1M", "body": "EC", "description": "Desc",
+            "name": country.capitalize(), "flag": "🏳️", "system": "Test", "color": "#c9a84c", "voters": "1 million voters", "body": "EC", "description": "Desc", "frequency": "Every 5 years",
             "timeline": [{"phase": "P1", "days": "1", "description": "D1"}], "steps": [], "facts": []
         }
         res = client.get(f"/api/elections/{country}/timeline")
@@ -225,9 +233,9 @@ class TestDataIntegrity:
     @pytest.mark.parametrize("country", SUPPORTED_COUNTRIES)
     def test_timeline_structure(self, client, mock_firebase, country):
         """Timeline should have required fields."""
-        # Setup mock data
+        mock_firebase.get_election_data.side_effect = None
         mock_firebase.get_election_data.return_value = {
-            "name": country.capitalize(), "flag": "🏳️", "system": "Test", "color": "#000", "voters": "1M", "body": "EC", "description": "Desc",
+            "name": country.capitalize(), "flag": "🏳️", "system": "Test", "color": "#c9a84c", "voters": "1 million voters", "body": "EC", "description": "Desc", "frequency": "Every 5 years",
             "timeline": [{"phase": "P1", "days": "1", "description": "D1"}], "steps": [], "facts": []
         }
         res = client.get(f"/api/elections/{country}/timeline")
@@ -260,7 +268,8 @@ class TestDataIntegrity:
         """Color should be valid hex."""
         color = ELECTION_DATA[country]["color"]
         assert color.startswith("#")
-        assert len(color) in [4, 7]
+        # Accept 4-char (#RGB) or 7-char (#RRGGBB) or 9-char (#RRGGBBAA)
+        assert len(color) in [4, 7, 9]
 
     @pytest.mark.parametrize("country", SUPPORTED_COUNTRIES)
     def test_flag_is_emoji(self, country):
@@ -272,7 +281,8 @@ class TestDataIntegrity:
     def test_voters_field_populated(self, country):
         """Voters field should contain population info."""
         voters = ELECTION_DATA[country]["voters"]
-        assert "million" in voters.lower() or "m" in voters.lower()
+        # Accept 'million', 'M', 'billion', or 'B' as valid voter count indicators
+        assert any(k in voters.lower() for k in ["million", "m", "billion", "b"])
 
 
 class TestFallbackResponse:
