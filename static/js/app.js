@@ -123,57 +123,75 @@ async function loadAllCountries() {
   }
 }
 
-const compareData = [
-  { id: "india", compulsory: false, cycle: 5, votersM: 970 },
-  { id: "usa", compulsory: false, cycle: 4, votersM: 240 },
-  { id: "uk", compulsory: false, cycle: 5, votersM: 48 },
-  { id: "eu", compulsory: false, cycle: 5, votersM: 370 },
-  { id: "brazil", compulsory: true, cycle: 4, votersM: 156 }
-];
+// Compulsory voting and cycle metadata — kept separate since it's not in the API response
+const COMPARE_META = {
+  india:        { compulsory: false, cycle: 5 },
+  usa:          { compulsory: false, cycle: 4 },
+  uk:           { compulsory: false, cycle: 5 },
+  eu:           { compulsory: false, cycle: 5 },
+  brazil:       { compulsory: true,  cycle: 4 },
+  south_africa: { compulsory: false, cycle: 5 },
+  australia:    { compulsory: true,  cycle: 3 },
+  japan:        { compulsory: false, cycle: 4 },
+  mexico:       { compulsory: false, cycle: 6 },
+  canada:       { compulsory: false, cycle: 4 },
+};
 
 function renderCompare() {
   const tbody = document.getElementById("compareBody");
   if (!tbody) return;
 
-  const countries = {
-    india: { name: "India", flag: "🇮🇳", system: "Parliamentary Democracy", body: "Election Commission of India", freq: "Every 5 years" },
-    usa: { name: "United States", flag: "🇺🇸", system: "Federal Presidential Republic", body: "Federal Election Commission", freq: "Every 4 years" },
-    uk: { name: "United Kingdom", flag: "🇬🇧", system: "Constitutional Monarchy", body: "Electoral Commission", freq: "Every 5 years" },
-    eu: { name: "European Union", flag: "🇪🇺", system: "Supranational Union", body: "European Parliament", freq: "Every 5 years" },
-    brazil: { name: "Brazil", flag: "🇧🇷", system: "Federal Presidential Republic", body: "Tribunal Superior Electoral", freq: "Every 4 years" }
-  };
+  // Use live data from allCountries; fall back to empty if not yet loaded
+  const countries = window.matdaanState.allCountries;
+  const ids = Object.keys(countries);
 
-  tbody.innerHTML = compareData.map(d => {
-    const c = countries[d.id];
+  if (ids.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center">Loading…</td></tr>`;
+    // Retry once data arrives
+    setTimeout(renderCompare, 500);
+    return;
+  }
+
+  tbody.innerHTML = ids.map(id => {
+    const c = countries[id];
+    const meta = COMPARE_META[id] || { compulsory: false, cycle: "?" };
+    const voters = c.voters || "—";
     return `<tr>
-      <td><span class="flag-cell" aria-hidden="true">${c.flag}</span> ${c.name}</td>
-      <td>${c.system}</td>
-      <td>${c.freq}</td>
-      <td>${d.votersM}M+</td>
-      <td style="font-size:0.82rem">${c.body}</td>
-      <td><span class="badge ${d.compulsory ? "badge-yes" : "badge-no"}">${d.compulsory ? "Yes" : "No"}</span></td>
+      <td><span class="flag-cell" aria-hidden="true">${c.flag}</span> ${escapeHtml(c.name)}</td>
+      <td>${escapeHtml(c.system)}</td>
+      <td>${escapeHtml(c.frequency || "—")}</td>
+      <td>${escapeHtml(voters)}</td>
+      <td style="font-size:0.82rem">${escapeHtml(c.body || "—")}</td>
+      <td><span class="badge ${meta.compulsory ? "badge-yes" : "badge-no"}">${meta.compulsory ? "Yes" : "No"}</span></td>
     </tr>`;
   }).join("");
 
-  const maxV = Math.max(...compareData.map(d => d.votersM));
-  document.getElementById("voterChart").innerHTML = compareData.map(d => {
-    const c = countries[d.id];
-    const pct = Math.round((d.votersM / maxV) * 100);
+  // Bar charts — voters
+  const voterNums = ids.map(id => {
+    const raw = (countries[id].voters || "0").replace(/[^0-9.]/g, "");
+    return parseFloat(raw) || 0;
+  });
+  const maxV = Math.max(...voterNums, 1);
+  document.getElementById("voterChart").innerHTML = ids.map((id, i) => {
+    const c = countries[id];
+    const pct = Math.round((voterNums[i] / maxV) * 100);
     return `<div class="bar-row">
       <span class="bar-label" aria-hidden="true">${c.flag}</span>
-      <div class="bar-track"><div class="bar-fill" style="width:0%" data-width="${pct}%" role="img" aria-label="${c.name}: ${d.votersM}M voters"></div></div>
-      <span class="bar-val">${d.votersM}M</span>
+      <div class="bar-track"><div class="bar-fill" style="width:0%" data-width="${pct}%" role="img" aria-label="${escapeHtml(c.name)}: ${escapeHtml(c.voters || '—')}"></div></div>
+      <span class="bar-val">${escapeHtml(c.voters || '—')}</span>
     </div>`;
   }).join("");
 
-  const maxC = 5;
-  document.getElementById("cycleChart").innerHTML = compareData.map(d => {
-    const c = countries[d.id];
-    const pct = Math.round((d.cycle / maxC) * 100);
+  // Bar charts — cycle
+  const cycles = ids.map(id => (COMPARE_META[id] || {}).cycle || 0);
+  const maxC = Math.max(...cycles, 1);
+  document.getElementById("cycleChart").innerHTML = ids.map((id, i) => {
+    const c = countries[id];
+    const pct = Math.round((cycles[i] / maxC) * 100);
     return `<div class="bar-row">
       <span class="bar-label" aria-hidden="true">${c.flag}</span>
-      <div class="bar-track"><div class="bar-fill" style="width:0%" data-width="${pct}%" role="img" aria-label="${c.name}: every ${d.cycle} years"></div></div>
-      <span class="bar-val">${d.cycle} yrs</span>
+      <div class="bar-track"><div class="bar-fill" style="width:0%" data-width="${pct}%" role="img" aria-label="${escapeHtml(c.name)}: every ${cycles[i]} years"></div></div>
+      <span class="bar-val">${cycles[i]} yrs</span>
     </div>`;
   }).join("");
 

@@ -4,7 +4,6 @@ Tests Gemini, Translate, Firebase, and Vertex AI services
 """
 
 import pytest
-import pytest_asyncio
 from unittest.mock import Mock, patch, MagicMock
 import sys
 import os
@@ -15,8 +14,6 @@ from services.gemini_service import GeminiService, get_gemini_service
 from services.translate_service import TranslateService, get_translate_service
 from services.firebase_service import FirebaseService, get_firebase_service
 from services.vertex_service import VertexService, get_vertex_service
-
-pytestmark = pytest.mark.asyncio
 
 
 class TestGeminiService:

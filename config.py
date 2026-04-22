@@ -65,6 +65,7 @@ CHAT_HISTORY_TTL_HOURS: int = 24
 # ──────────────────────────────────────────────
 
 RATELIMIT_ENABLED: bool = True
+# Use memory:// for local dev; set to redis://host:port for production (Cloud Memorystore)
 RATELIMIT_STORAGE_URI: str = os.environ.get("RATELIMIT_STORAGE_URI", "memory://")
 CHAT_REQUESTS_PER_MINUTE: int = 20
 TRANSLATE_REQUESTS_PER_MINUTE: int = 30

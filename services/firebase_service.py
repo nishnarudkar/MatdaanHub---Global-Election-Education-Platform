@@ -4,15 +4,15 @@ Handles chat session storage and history management
 """
 
 import logging
+import time
 from typing import Optional
-from datetime import datetime, timedelta
 from config import (
     FIREBASE_ENABLED,
     FIREBASE_CREDENTIALS_PATH,
     FIRESTORE_CHAT_COLLECTION,
     FIRESTORE_ELECTIONS_COLLECTION,
     FIRESTORE_GLOSSARY_COLLECTION,
-    CHAT_HISTORY_TTL_HOURS,
+    CACHE_TTL_SECONDS,
 )
 
 logger = logging.getLogger(__name__)
@@ -38,6 +38,11 @@ class FirebaseService:
         self.available: bool = False
         self.db = None
         self.call_count: int = 0
+        # Simple in-memory TTL cache for election data (rarely changes)
+        self._elections_cache: dict = {}
+        self._elections_cache_ts: float = 0.0
+        self._glossary_cache: list = []
+        self._glossary_cache_ts: float = 0.0
 
         if not FIREBASE_AVAILABLE:
             logger.warning("Firebase service not available: firebase-admin not installed")
@@ -222,15 +227,14 @@ class FirebaseService:
     async def get_election_data(self, country_id: str) -> Optional[dict]:
         """
         Fetch election profile for a country from Firestore.
-
-        Args:
-            country_id: Unique country identifier
-
-        Returns:
-            Dictionary with election data or None
+        Results are cached for CACHE_TTL_SECONDS to reduce Firestore reads.
         """
         if not self.available or not self.db:
             return None
+
+        # Serve from cache if fresh
+        if self._elections_cache and (time.monotonic() - self._elections_cache_ts) < CACHE_TTL_SECONDS:
+            return self._elections_cache.get(country_id)
 
         try:
             import anyio
@@ -240,7 +244,10 @@ class FirebaseService:
                 doc = doc_ref.get()
                 return doc.to_dict() if doc.exists else None
 
-            return await anyio.to_thread.run_sync(_sync_get)
+            result = await anyio.to_thread.run_sync(_sync_get)
+            if result:
+                self._elections_cache[country_id] = result
+            return result
         except Exception as e:
             logger.error(f"Error fetching election data for {country_id}: {e}")
             return None
@@ -248,12 +255,14 @@ class FirebaseService:
     async def get_all_elections(self) -> dict:
         """
         Fetch all election summaries from Firestore.
-
-        Returns:
-            Dictionary mapping country_id to election summary
+        Results are cached for CACHE_TTL_SECONDS to reduce Firestore reads.
         """
         if not self.available or not self.db:
             return {}
+
+        # Serve from cache if fresh
+        if self._elections_cache and (time.monotonic() - self._elections_cache_ts) < CACHE_TTL_SECONDS:
+            return self._elections_cache
 
         try:
             import anyio
@@ -265,7 +274,11 @@ class FirebaseService:
                     all_data[doc.id] = doc.to_dict()
                 return all_data
 
-            return await anyio.to_thread.run_sync(_sync_get_all)
+            result = await anyio.to_thread.run_sync(_sync_get_all)
+            self._elections_cache = result
+            self._elections_cache_ts = time.monotonic()
+            logger.debug(f"Elections cache refreshed ({len(result)} countries)")
+            return result
         except Exception as e:
             logger.error(f"Error fetching all elections: {e}")
             return {}
@@ -273,12 +286,14 @@ class FirebaseService:
     async def get_glossary(self) -> list[dict]:
         """
         Fetch all glossary terms from Firestore.
-
-        Returns:
-            List of dictionaries with term and definition
+        Results are cached for CACHE_TTL_SECONDS to reduce Firestore reads.
         """
         if not self.available or not self.db:
             return []
+
+        # Serve from cache if fresh
+        if self._glossary_cache and (time.monotonic() - self._glossary_cache_ts) < CACHE_TTL_SECONDS:
+            return self._glossary_cache
 
         try:
             import anyio
@@ -287,7 +302,11 @@ class FirebaseService:
                 docs = self.db.collection(FIRESTORE_GLOSSARY_COLLECTION).stream()
                 return [doc.to_dict() for doc in docs]
 
-            return await anyio.to_thread.run_sync(_sync_get_glossary)
+            result = await anyio.to_thread.run_sync(_sync_get_glossary)
+            self._glossary_cache = result
+            self._glossary_cache_ts = time.monotonic()
+            logger.debug(f"Glossary cache refreshed ({len(result)} terms)")
+            return result
         except Exception as e:
             logger.error(f"Error fetching glossary: {e}")
             return []

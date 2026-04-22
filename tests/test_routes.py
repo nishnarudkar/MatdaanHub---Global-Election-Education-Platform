@@ -200,6 +200,76 @@ class TestTranslateRoute:
         # Should return 503 if translate disabled, or 200 if available
         assert res.status_code in [200, 400, 422, 503]
 
+    def test_translate_missing_text_returns_422(self, client):
+        """Missing text field should return 422."""
+        res = client.post("/api/translate", json={"target_language": "es"})
+        assert res.status_code == 422
+
+    def test_translate_empty_text_returns_422(self, client):
+        """Empty text should return 422."""
+        res = client.post("/api/translate", json={"text": "", "target_language": "es"})
+        assert res.status_code == 422
+
+    def test_translate_with_mock_service(self, client, mock_translate):
+        """Should return translated text when service is available."""
+        from unittest.mock import AsyncMock, MagicMock
+        from services.translate_service import get_translate_service
+        from main import app
+
+        mock_svc = MagicMock()
+        mock_svc.is_available.return_value = True
+        mock_svc.translate_text = AsyncMock(return_value={
+            "translated_text": "hola",
+            "source_language": "en",
+            "target_language": "es",
+        })
+        app.dependency_overrides[get_translate_service] = lambda: mock_svc
+        try:
+            res = client.post("/api/translate", json={"text": "hello", "target_language": "es"})
+            assert res.status_code == 200
+            assert res.json()["translated_text"] == "hola"
+        finally:
+            app.dependency_overrides.pop(get_translate_service, None)
+
+    def test_translate_batch_with_mock_service(self, client, mock_translate):
+        """Batch translate should return list of translated texts."""
+        from unittest.mock import AsyncMock, MagicMock
+        from services.translate_service import get_translate_service
+        from main import app
+
+        mock_svc = MagicMock()
+        mock_svc.is_available.return_value = True
+        mock_svc.translate_batch = AsyncMock(return_value={
+            "translated_texts": ["hola", "mundo"],
+            "source_language": "en",
+            "target_language": "es",
+        })
+        app.dependency_overrides[get_translate_service] = lambda: mock_svc
+        try:
+            res = client.post("/api/translate/batch",
+                              json={"texts": ["hello", "world"], "target_language": "es"})
+            assert res.status_code == 200
+            assert len(res.json()["translated_texts"]) == 2
+        finally:
+            app.dependency_overrides.pop(get_translate_service, None)
+
+    def test_detect_language_with_mock_service(self, client, mock_translate):
+        """Detect language should return language code."""
+        from unittest.mock import AsyncMock, MagicMock
+        from services.translate_service import get_translate_service
+        from main import app
+
+        mock_svc = MagicMock()
+        mock_svc.is_available.return_value = True
+        mock_svc.detect_language = AsyncMock(return_value="en")
+        app.dependency_overrides[get_translate_service] = lambda: mock_svc
+        try:
+            res = client.post("/api/detect", json={"text": "hello"})
+            assert res.status_code == 200
+            assert "detected_language" in res.json()
+        finally:
+            app.dependency_overrides.pop(get_translate_service, None)
+
     def test_languages_endpoint(self, client):
         """Languages endpoint should list supported languages."""
         res = client.get("/api/languages")
@@ -262,7 +332,7 @@ class TestGroundedChatRoute:
             app.dependency_overrides.pop(get_vertex_service, None)
 
 
-
+class TestGlossaryRoute:
     """Glossary endpoints tests."""
 
     def test_glossary_list(self, client):
@@ -272,6 +342,23 @@ class TestGroundedChatRoute:
         data = res.json()
         assert "glossary" in data
         assert len(data["glossary"]) > 20
+
+    def test_glossary_term_not_found(self, client):
+        """Unknown glossary term should return 404."""
+        res = client.get("/api/glossary/nonexistentterm12345")
+        assert res.status_code in [404, 503]
+
+    def test_glossary_term_found(self, client, mock_firebase):
+        """Known glossary term should return definition."""
+        mock_firebase.get_glossary_term.return_value = {
+            "term": "Ballot",
+            "definition": "A slip of paper used to cast a vote."
+        }
+        res = client.get("/api/glossary/ballot")
+        assert res.status_code == 200
+        data = res.json()
+        assert "term" in data
+        assert "definition" in data
 
 
 class TestDataIntegrity:
