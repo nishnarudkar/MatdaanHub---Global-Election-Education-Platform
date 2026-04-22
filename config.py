@@ -56,6 +56,8 @@ VERTEX_GROUNDING_ENABLED: bool = os.environ.get("VERTEX_GROUNDING_ENABLED", "fal
 FIREBASE_CREDENTIALS_PATH: Optional[str] = os.environ.get("FIREBASE_CREDENTIALS_PATH")
 FIREBASE_ENABLED: bool = os.environ.get("FIREBASE_ENABLED", "false").lower() == "true"
 FIRESTORE_CHAT_COLLECTION: str = "chat_sessions"
+FIRESTORE_ELECTIONS_COLLECTION: str = "elections"
+FIRESTORE_GLOSSARY_COLLECTION: str = "glossary"
 CHAT_HISTORY_TTL_HOURS: int = 24
 
 # ──────────────────────────────────────────────

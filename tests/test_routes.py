@@ -11,10 +11,8 @@ import os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from main import app
-from routes.elections import _load_elections_data
 from services.gemini_service import get_gemini_service
 
-ELECTION_DATA = _load_elections_data()
 gemini_service = get_gemini_service()
 fallback_response = gemini_service._fallback_response
 
@@ -55,8 +53,13 @@ class TestElectionsRoute:
         res = client.get("/api/elections")
         assert res.status_code == 200
 
-    def test_elections_has_all_supported(self, client):
+    def test_elections_has_all_supported(self, client, mock_firebase):
         """Should return all 5 countries."""
+        # Setup mock data
+        mock_firebase.get_all_elections.return_value = {
+            country: {"name": country.capitalize(), "flag": "🏳️", "system": "Test", "color": "#000", "voters": "1M", "body": "EC", "description": "Desc", "timeline": [], "steps": [], "facts": []}
+            for country in SUPPORTED_COUNTRIES
+        }
         res = client.get("/api/elections")
         data = res.json()
         for country in SUPPORTED_COUNTRIES:
@@ -73,8 +76,12 @@ class TestElectionsRoute:
             assert "color" in info
 
     @pytest.mark.parametrize("country", SUPPORTED_COUNTRIES)
-    def test_country_detail_returns_200(self, client, country):
+    def test_country_detail_returns_200(self, client, mock_firebase, country):
         """GET /api/elections/<country> should return 200."""
+        # Setup mock data
+        mock_firebase.get_election_data.return_value = {
+            "name": country.capitalize(), "flag": "🏳️", "system": "Test", "color": "#000", "voters": "1M", "body": "EC", "description": "Desc", "timeline": [], "steps": [], "facts": []
+        }
         res = client.get(f"/api/elections/{country}")
         assert res.status_code == 200
 
@@ -99,8 +106,13 @@ class TestElectionsRoute:
         assert res.status_code == 200
 
     @pytest.mark.parametrize("country", SUPPORTED_COUNTRIES)
-    def test_timeline_endpoint(self, client, country):
+    def test_timeline_endpoint(self, client, mock_firebase, country):
         """Timeline endpoint should return timeline for country."""
+        # Setup mock data
+        mock_firebase.get_election_data.return_value = {
+            "name": country.capitalize(), "flag": "🏳️", "system": "Test", "color": "#000", "voters": "1M", "body": "EC", "description": "Desc",
+            "timeline": [{"phase": "P1", "days": "1", "description": "D1"}], "steps": [], "facts": []
+        }
         res = client.get(f"/api/elections/{country}/timeline")
         assert res.status_code == 200
         data = res.json()
@@ -211,9 +223,15 @@ class TestDataIntegrity:
     """Data structure and content validation."""
 
     @pytest.mark.parametrize("country", SUPPORTED_COUNTRIES)
-    def test_timeline_structure(self, country):
+    def test_timeline_structure(self, client, mock_firebase, country):
         """Timeline should have required fields."""
-        data = ELECTION_DATA[country]
+        # Setup mock data
+        mock_firebase.get_election_data.return_value = {
+            "name": country.capitalize(), "flag": "🏳️", "system": "Test", "color": "#000", "voters": "1M", "body": "EC", "description": "Desc",
+            "timeline": [{"phase": "P1", "days": "1", "description": "D1"}], "steps": [], "facts": []
+        }
+        res = client.get(f"/api/elections/{country}/timeline")
+        data = res.json()
         assert "timeline" in data
         for item in data["timeline"]:
             assert "phase" in item

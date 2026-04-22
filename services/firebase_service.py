@@ -10,6 +10,8 @@ from config import (
     FIREBASE_ENABLED,
     FIREBASE_CREDENTIALS_PATH,
     FIRESTORE_CHAT_COLLECTION,
+    FIRESTORE_ELECTIONS_COLLECTION,
+    FIRESTORE_GLOSSARY_COLLECTION,
     CHAT_HISTORY_TTL_HOURS,
 )
 
@@ -216,6 +218,114 @@ class FirebaseService:
         except Exception as e:
             logger.error(f"Error deleting session: {e}")
             return False
+
+    async def get_election_data(self, country_id: str) -> Optional[dict]:
+        """
+        Fetch election profile for a country from Firestore.
+
+        Args:
+            country_id: Unique country identifier
+
+        Returns:
+            Dictionary with election data or None
+        """
+        if not self.available or not self.db:
+            return None
+
+        try:
+            import anyio
+
+            def _sync_get():
+                doc_ref = self.db.collection(FIRESTORE_ELECTIONS_COLLECTION).document(country_id)
+                doc = doc_ref.get()
+                return doc.to_dict() if doc.exists else None
+
+            return await anyio.to_thread.run_sync(_sync_get)
+        except Exception as e:
+            logger.error(f"Error fetching election data for {country_id}: {e}")
+            return None
+
+    async def get_all_elections(self) -> dict:
+        """
+        Fetch all election summaries from Firestore.
+
+        Returns:
+            Dictionary mapping country_id to election summary
+        """
+        if not self.available or not self.db:
+            return {}
+
+        try:
+            import anyio
+
+            def _sync_get_all():
+                docs = self.db.collection(FIRESTORE_ELECTIONS_COLLECTION).stream()
+                all_data = {}
+                for doc in docs:
+                    all_data[doc.id] = doc.to_dict()
+                return all_data
+
+            return await anyio.to_thread.run_sync(_sync_get_all)
+        except Exception as e:
+            logger.error(f"Error fetching all elections: {e}")
+            return {}
+
+    async def get_glossary(self) -> list[dict]:
+        """
+        Fetch all glossary terms from Firestore.
+
+        Returns:
+            List of dictionaries with term and definition
+        """
+        if not self.available or not self.db:
+            return []
+
+        try:
+            import anyio
+
+            def _sync_get_glossary():
+                docs = self.db.collection(FIRESTORE_GLOSSARY_COLLECTION).stream()
+                return [doc.to_dict() for doc in docs]
+
+            return await anyio.to_thread.run_sync(_sync_get_glossary)
+        except Exception as e:
+            logger.error(f"Error fetching glossary: {e}")
+            return []
+
+    async def get_glossary_term(self, term: str) -> Optional[dict]:
+        """
+        Fetch a specific glossary term from Firestore.
+
+        Args:
+            term: The term to look up
+
+        Returns:
+            Dictionary with term details or None
+        """
+        if not self.available or not self.db:
+            return None
+
+        try:
+            import anyio
+
+            def _sync_get_term():
+                # We search by the 'term' field (case-insensitive usually handled at route)
+                # But here we assume terms are document IDs or we query
+                # Let's assume term is the document ID for efficiency if possible
+                doc_ref = self.db.collection(FIRESTORE_GLOSSARY_COLLECTION).document(term.lower())
+                doc = doc_ref.get()
+                if doc.exists:
+                    return doc.to_dict()
+                
+                # If not found as ID, try searching by field
+                query = self.db.collection(FIRESTORE_GLOSSARY_COLLECTION).where("term", "==", term).limit(1)
+                docs = list(query.stream())
+                return docs[0].to_dict() if docs else None
+
+            return await anyio.to_thread.run_sync(_sync_get_term)
+        except Exception as e:
+            logger.error(f"Error fetching glossary term {term}: {e}")
+            return None
 
     def is_available(self) -> bool:
         """Check if Firebase service is available."""

@@ -3,56 +3,24 @@ Election Data Routes
 Provides endpoints for election system information and timelines
 """
 
-import json
 import logging
-from typing import Optional
-from fastapi import APIRouter, HTTPException
-from config import ELECTIONS_DATA_FILE, GLOSSARY_DATA_FILE, ALLOWED_COUNTRIES
+from typing import Optional, List
+from fastapi import APIRouter, HTTPException, Depends
+from config import ALLOWED_COUNTRIES
+from services.firebase_service import get_firebase_service, FirebaseService
+from schemas.election_schemas import ElectionProfile, GlossaryTerm
 
 logger = logging.getLogger(__name__)
 
 router = APIRouter()
 
-# Cache for elections data
-_elections_cache: Optional[dict] = None
-_glossary_cache: Optional[dict] = None
 
-
-def _load_elections_data() -> dict:
-    """Load elections data from JSON file."""
-    global _elections_cache
-    if _elections_cache is not None:
-        return _elections_cache
-
-    try:
-        with open(ELECTIONS_DATA_FILE, "r", encoding="utf-8") as f:
-            _elections_cache = json.load(f)
-        logger.info(f"Loaded elections data with {len(_elections_cache)} countries")
-        return _elections_cache
-    except Exception as e:
-        logger.error(f"Failed to load elections data: {e}")
-        return {}
-
-
-def _load_glossary_data() -> dict:
-    """Load glossary data from JSON file."""
-    global _glossary_cache
-    if _glossary_cache is not None:
-        return _glossary_cache
-
-    try:
-        with open(GLOSSARY_DATA_FILE, "r", encoding="utf-8") as f:
-            data = json.load(f)
-            _glossary_cache = {term["term"].lower(): term for term in data.get("glossary", [])}
-        logger.info(f"Loaded glossary with {len(_glossary_cache)} terms")
-        return _glossary_cache
-    except Exception as e:
-        logger.error(f"Failed to load glossary data: {e}")
-        return {}
 
 
 @router.get("/api/elections")
-async def get_all_elections() -> dict:
+async def get_all_elections(
+    firebase_service: FirebaseService = Depends(get_firebase_service)
+) -> dict:
     """
     Get summary of all supported countries.
 
@@ -60,18 +28,32 @@ async def get_all_elections() -> dict:
         JSON with country summaries: name, flag, system, color, voters
     """
     try:
-        data = _load_elections_data()
+        data = await firebase_service.get_all_elections()
         summary = {}
 
         for country_id, country_data in data.items():
-            summary[country_id] = {
-                "name": country_data.get("name"),
-                "flag": country_data.get("flag"),
-                "system": country_data.get("system"),
-                "color": country_data.get("color"),
-                "voters": country_data.get("voters"),
-                "body": country_data.get("body"),
-            }
+            # Validate with schema
+            try:
+                profile = ElectionProfile(**country_data)
+                summary[country_id] = {
+                    "name": profile.name,
+                    "flag": profile.flag,
+                    "system": profile.system,
+                    "color": profile.color,
+                    "voters": profile.voters,
+                    "body": profile.body,
+                }
+            except Exception as ve:
+                logger.warning(f"Invalid election data for {country_id}: {ve}")
+                # Fallback to raw data if validation fails but we want to return what we have
+                summary[country_id] = {
+                    "name": country_data.get("name"),
+                    "flag": country_data.get("flag"),
+                    "system": country_data.get("system"),
+                    "color": country_data.get("color"),
+                    "voters": country_data.get("voters"),
+                    "body": country_data.get("body"),
+                }
 
         return summary
     except Exception as e:
@@ -80,7 +62,10 @@ async def get_all_elections() -> dict:
 
 
 @router.get("/api/elections/{country_id}")
-async def get_election_details(country_id: str) -> dict:
+async def get_election_details(
+    country_id: str,
+    firebase_service: FirebaseService = Depends(get_firebase_service)
+) -> dict:
     """
     Get full election details for a country.
 
@@ -97,13 +82,14 @@ async def get_election_details(country_id: str) -> dict:
         raise HTTPException(status_code=404, detail="Country not found")
 
     try:
-        data = _load_elections_data()
-        country_data = data.get(country_id)
+        country_data = await firebase_service.get_election_data(country_id)
 
         if not country_data:
             raise HTTPException(status_code=404, detail="Country data not found")
 
-        return country_data
+        # Validate with schema
+        profile = ElectionProfile(**country_data)
+        return profile.model_dump()
     except HTTPException:
         raise
     except Exception as e:
@@ -112,7 +98,10 @@ async def get_election_details(country_id: str) -> dict:
 
 
 @router.get("/api/elections/{country_id}/timeline")
-async def get_election_timeline(country_id: str) -> dict:
+async def get_election_timeline(
+    country_id: str,
+    firebase_service: FirebaseService = Depends(get_firebase_service)
+) -> dict:
     """
     Get election timeline for a country.
 
@@ -128,9 +117,14 @@ async def get_election_timeline(country_id: str) -> dict:
         raise HTTPException(status_code=404, detail="Country not found")
 
     try:
-        data = _load_elections_data()
-        country_data = data.get(country_id, {})
-        timeline = country_data.get("timeline", [])
+        country_data = await firebase_service.get_election_data(country_id)
+        
+        if not country_data:
+             raise HTTPException(status_code=404, detail="Country data not found")
+
+        # Validate with schema
+        profile = ElectionProfile(**country_data)
+        timeline = profile.timeline
 
         if not timeline:
             logger.warning(f"No timeline found for {country_id}")
@@ -138,8 +132,8 @@ async def get_election_timeline(country_id: str) -> dict:
 
         return {
             "country": country_id,
-            "country_name": country_data.get("name"),
-            "timeline": timeline,
+            "country_name": profile.name,
+            "timeline": [p.model_dump() for p in timeline],
         }
     except HTTPException:
         raise
@@ -149,7 +143,10 @@ async def get_election_timeline(country_id: str) -> dict:
 
 
 @router.get("/api/elections/{country_id}/voting-steps")
-async def get_voting_steps(country_id: str) -> dict:
+async def get_voting_steps(
+    country_id: str,
+    firebase_service: FirebaseService = Depends(get_firebase_service)
+) -> dict:
     """
     Get how-to-vote steps for a country.
 
@@ -165,9 +162,14 @@ async def get_voting_steps(country_id: str) -> dict:
         raise HTTPException(status_code=404, detail="Country not found")
 
     try:
-        data = _load_elections_data()
-        country_data = data.get(country_id, {})
-        steps = country_data.get("steps", [])
+        country_data = await firebase_service.get_election_data(country_id)
+        
+        if not country_data:
+             raise HTTPException(status_code=404, detail="Country data not found")
+
+        # Validate with schema
+        profile = ElectionProfile(**country_data)
+        steps = profile.steps
 
         if not steps:
             logger.warning(f"No voting steps found for {country_id}")
@@ -175,8 +177,8 @@ async def get_voting_steps(country_id: str) -> dict:
 
         return {
             "country": country_id,
-            "country_name": country_data.get("name"),
-            "steps": steps,
+            "country_name": profile.name,
+            "steps": [s.model_dump() for s in steps],
         }
     except HTTPException:
         raise
@@ -186,7 +188,9 @@ async def get_voting_steps(country_id: str) -> dict:
 
 
 @router.get("/api/glossary")
-async def get_glossary() -> dict:
+async def get_glossary(
+    firebase_service: FirebaseService = Depends(get_firebase_service)
+) -> dict:
     """
     Get election terminology glossary.
 
@@ -194,16 +198,29 @@ async def get_glossary() -> dict:
         JSON array of terms and definitions
     """
     try:
-        with open(GLOSSARY_DATA_FILE, "r", encoding="utf-8") as f:
-            data = json.load(f)
-        return data
+        glossary_list = await firebase_service.get_glossary()
+        
+        # Validate each term
+        validated_glossary = []
+        for item in glossary_list:
+            try:
+                term = GlossaryTerm(**item)
+                validated_glossary.append(term.model_dump())
+            except Exception as ve:
+                logger.warning(f"Invalid glossary term: {ve}")
+                validated_glossary.append(item)
+
+        return {"glossary": validated_glossary}
     except Exception as e:
         logger.error(f"Error fetching glossary: {e}")
         raise HTTPException(status_code=500, detail="Failed to fetch glossary")
 
 
 @router.get("/api/glossary/{term}")
-async def get_glossary_term(term: str) -> dict:
+async def get_glossary_term(
+    term: str,
+    firebase_service: FirebaseService = Depends(get_firebase_service)
+) -> dict:
     """
     Get definition for a specific glossary term.
 
@@ -213,16 +230,16 @@ async def get_glossary_term(term: str) -> dict:
     Returns:
         JSON with term definition and examples
     """
-    term_lower = term.lower()
-
     try:
-        glossary = _load_glossary_data()
+        term_data = await firebase_service.get_glossary_term(term)
 
-        if term_lower not in glossary:
+        if not term_data:
             logger.warning(f"Glossary term not found: {term}")
             raise HTTPException(status_code=404, detail="Term not found")
 
-        return glossary[term_lower]
+        # Validate with schema
+        glossary_term = GlossaryTerm(**term_data)
+        return glossary_term.model_dump()
     except HTTPException:
         raise
     except Exception as e:
