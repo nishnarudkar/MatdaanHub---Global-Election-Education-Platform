@@ -10,7 +10,7 @@
 
 ---
 
-## 📋 Table of Contents
+## Table of Contents
 
 - [Project Overview](#-project-overview)
 - [Chosen Vertical & Approach](#-chosen-vertical--approach)
@@ -28,7 +28,7 @@
 
 ---
 
-## 🎯 Project Overview
+## Project Overview
 
 **MatdaanHub** is a production-grade educational platform that demystifies global election processes through:
 - **10 Countries**: India, USA, UK, EU, Brazil, South Africa, Australia, Japan, Mexico, Canada
@@ -44,7 +44,7 @@
 
 ---
 
-## 🎓 Chosen Vertical & Approach
+## Chosen Vertical & Approach
 
 ### Vertical: **Civic Education & Democratic Engagement**
 
@@ -82,7 +82,7 @@
 
 ---
 
-## 🔧 How the Solution Works
+## How the Solution Works
 
 ### System Architecture
 
@@ -148,7 +148,7 @@
 
 ---
 
-## ✨ Key Features
+## Key Features
 
 ### 1. Interactive Election Timelines
 - **Scrollytelling**: Timeline items animate into view as user scrolls
@@ -186,7 +186,7 @@
 
 ---
 
-## 🏗️ Architecture & Design
+## Architecture & Design
 
 ### Design Principles
 
@@ -229,7 +229,7 @@ glossary/
 
 ---
 
-## 🔗 Google Services Integration
+## Google Services Integration
 
 ### 1. **Google Gemini AI** (Primary)
 - **Model**: gemini-1.5-flash
@@ -277,7 +277,7 @@ glossary/
 
 ---
 
-## 🔒 Security Implementation
+## Security Implementation
 
 ### Input Validation & Sanitization
 ```python
@@ -318,7 +318,7 @@ async def add_security_headers(request, call_next):
 
 ---
 
-## ♿ Accessibility Features
+## Accessibility Features
 
 ### WCAG 2.1 AA Compliance
 
@@ -366,7 +366,7 @@ async def add_security_headers(request, call_next):
 
 ---
 
-## 🧪 Testing Strategy
+## Testing Strategy
 
 ### Test Coverage: **308 Tests Passing**
 
@@ -419,7 +419,7 @@ pytest tests/ --cov=. --cov-report=html
 
 ---
 
-## ⚡ Performance & Efficiency
+## Performance & Efficiency
 
 ### Optimization Strategies
 
@@ -468,7 +468,7 @@ def get_elections_cached():
 
 ---
 
-## 📸 Screenshots
+## Screenshots
 
 ### Home Page - Hero Section
 ![Hero Section](output/Screenshot%202026-04-23%20022210.png)
@@ -496,7 +496,7 @@ def get_elections_cached():
 
 ---
 
-## 🚀 Setup & Deployment
+## Setup & Deployment
 
 ### Prerequisites
 - Python 3.11+
@@ -599,7 +599,7 @@ gcloud run services update matdaanhub \
 
 ---
 
-## 📝 Assumptions Made
+## Assumptions Made
 
 ### 1. **Data Assumptions**
 - Election data is relatively static (updated annually)
@@ -639,38 +639,38 @@ gcloud run services update matdaanhub \
 
 ---
 
-## 📊 Evaluation Criteria Compliance
+## Evaluation Criteria Compliance
 
-### ✅ Code Quality
+### Code Quality
 - **Structure**: Modular architecture with clear separation of concerns
 - **Readability**: Comprehensive comments, type hints, docstrings
 - **Maintainability**: DRY principle, reusable functions, configuration management
 
-### ✅ Security
+### Security
 - **Input Sanitization**: bleach library for XSS prevention
 - **Rate Limiting**: slowapi for request throttling
 - **Security Headers**: CSP, X-Frame-Options, X-Content-Type-Options
 - **Secret Management**: Environment variables, Cloud Run secrets
 
-### ✅ Efficiency
+### Efficiency
 - **Caching**: In-memory TTL cache for Firestore data
 - **Lazy Loading**: On-demand resource loading
 - **Optimized Assets**: WebP images, minified CSS/JS
 - **Database Indexing**: Firestore indexes for fast queries
 
-### ✅ Testing
+### Testing
 - **308 Tests Passing**: Comprehensive test coverage
 - **Multiple Test Types**: Unit, integration, security, accessibility
 - **CI/CD Integration**: Automated testing on push
 - **Coverage Reports**: HTML coverage reports generated
 
-### ✅ Accessibility
+### Accessibility
 - **WCAG 2.1 AA**: Compliant with accessibility standards
 - **Semantic HTML**: Proper use of landmarks and ARIA
 - **Keyboard Navigation**: Full keyboard support
 - **Screen Reader**: Optimized for assistive technologies
 
-### ✅ Google Services
+### Google Services
 - **Gemini AI**: Primary AI chat functionality
 - **Cloud Translate**: Multi-language support
 - **Firestore**: Optional persistent storage
@@ -679,7 +679,7 @@ gcloud run services update matdaanhub \
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 ### Backend
 - **Framework**: FastAPI 0.115.12
@@ -706,13 +706,13 @@ gcloud run services update matdaanhub \
 
 ---
 
-## 📄 License
+## License
 
 MIT License - See [LICENSE](LICENSE) file for details
 
 ---
 
-## 👨‍💻 Author
+## Author
 
 **Nishant Narudkar**
 - GitHub: [@nishnarudkar](https://github.com/nishnarudkar)
@@ -720,7 +720,7 @@ MIT License - See [LICENSE](LICENSE) file for details
 
 ---
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - Google Cloud Platform for hosting and services
 - Google Gemini AI for natural language processing
@@ -729,7 +729,7 @@ MIT License - See [LICENSE](LICENSE) file for details
 
 ---
 
-## 📞 Support
+## Support
 
 For issues, questions, or contributions:
 1. Open an issue on GitHub
@@ -738,4 +738,4 @@ For issues, questions, or contributions:
 
 ---
 
-**Built with ❤️ for civic education and democratic engagement**
+**Built for civic education and democratic engagement**
