@@ -4,6 +4,7 @@ Production-grade FastAPI application with Google AI integration
 """
 
 import os
+import json
 import logging
 import time
 from typing import Callable
@@ -99,8 +100,19 @@ def create_app() -> FastAPI:
         """Render main SPA template."""
         from services.firebase_service import get_firebase_service
         firebase_service = get_firebase_service()
-        
+
         elections_data = await firebase_service.get_all_elections()
+
+        # Fall back to local JSON if Firestore is unavailable or empty
+        if not elections_data:
+            logger.warning("Firestore unavailable or empty — falling back to local elections.json")
+            try:
+                with open(config.ELECTIONS_DATA_FILE, encoding="utf-8") as f:
+                    elections_data = json.load(f)
+            except Exception as e:
+                logger.error(f"Failed to load local elections.json: {e}")
+                elections_data = {}
+
         countries = {}
         for key, data in elections_data.items():
             countries[key] = {
@@ -112,7 +124,7 @@ def create_app() -> FastAPI:
 
         return templates.TemplateResponse(
             request,
-            "index.html", 
+            "index.html",
             {"countries": countries}
         )
 
